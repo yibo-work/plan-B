@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.ResultMapper">
+
+    <!--新增拜访结果-->
+    <insert id="addResult">
+        insert into result(sales, brand, status, `group`, earnings, `range`, problem, customer_id)
+        values ( #{result.sales,jdbcType=VARCHAR}
+               , #{result.brand,jdbcType=VARCHAR}
+               , #{result.status,jdbcType=VARCHAR}
+               , #{result.group,jdbcType=VARCHAR}
+               , #{result.earnings,jdbcType=VARCHAR}
+               , #{result.range,jdbcType=VARCHAR}
+               , #{result.problem,jdbcType=VARCHAR}
+               , #{result.customerId,jdbcType=VARCHAR});
+    </insert>
+
+</mapper>
