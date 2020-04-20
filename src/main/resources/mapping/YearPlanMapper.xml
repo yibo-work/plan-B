@@ -38,30 +38,45 @@
 
 
     <!--查询计划-->
-    <select id="queryPlanList" resultMap="PlanVOMap">
-        select a.id as planId, a.company_name as planCompanyName, exec_time , a.phone as planPhone, a.address as
-        planAddress, type, `rank`, status, customer_id, user_id,
-        s.id as customerId, s.company_name as customerCompanyName, man, s.phone as customerPhone, s.address as
-        customerAddress, plan_flag,
-        d.id, name, password, d.phone as userPhone, role_id
-        from plan as a
-        inner join `customer` s ON a.customer_id = s.id
-        left join `user` d ON a.user_id = d.id
-        <where>
-            <if test="type != null and type != ''">
-                and type = #{type, jdbcType=INTEGER}
-            </if>
-            <if test="status != null">
-                and `status` = #{status}
-            </if>
-            <if test="companyName != null and companyName != ''">
-                and a.company_name like concat('%', #{companyName, jdbcType=VARCHAR},'%')
-            </if>
-            <if test="execTime != null and execTime != ''">
-                and exec_time like concat('%', #{execTime, jdbcType=VARCHAR},'%')
-            </if>
-        </where>
-        order by `rank`
+    <!--    <select id="queryPlanList" resultMap="PlanVOMap">-->
+    <!--        select a.id as planId, a.company_name as planCompanyName, exec_time , a.phone as planPhone, a.address as-->
+    <!--        planAddress, type, `rank`, status, customer_id, user_id,-->
+    <!--        s.id as customerId, s.company_name as customerCompanyName, man, s.phone as customerPhone, s.address as-->
+    <!--        customerAddress, plan_flag,-->
+    <!--        d.id, name, password, d.phone as userPhone, role_id-->
+    <!--        from year_plan as a-->
+    <!--        inner join `customer` s ON a.customer_id = s.id-->
+    <!--        left join `user` d ON a.user_id = d.id-->
+    <!--        <where>-->
+    <!--            <if test="type != null and type != ''">-->
+    <!--                and type = #{type, jdbcType=INTEGER}-->
+    <!--            </if>-->
+    <!--            <if test="status != null">-->
+    <!--                and `status` = #{status}-->
+    <!--            </if>-->
+    <!--            <if test="companyName != null and companyName != ''">-->
+    <!--                and a.company_name like concat('%', #{companyName, jdbcType=VARCHAR},'%')-->
+    <!--            </if>-->
+    <!--            <if test="execTime != null and execTime != ''">-->
+    <!--                and exec_time like concat('%', #{execTime, jdbcType=VARCHAR},'%')-->
+    <!--            </if>-->
+    <!--        </where>-->
+    <!--        order by `rank`-->
+    <!--    </select>-->
+
+    <select id="queryPlanList" resultType="com.pojo.YearPlan">
+        select id,
+               exec_time,
+               overview,
+               situation,
+               target,
+               first_user_id,
+               first_idea,
+               second_user_id,
+               second_idea,
+               apply_user_id,
+               status
+        from year_plan
     </select>
 
     <!--新增年计划-->
@@ -80,33 +95,21 @@
                , #{plan.status,jdbcType=INTEGER});
     </insert>
 
-    <!--查询单个计划-->
-    <select id="getPlanById" resultMap="PlanVOMap">
-        select a.id           as planId,
-               a.company_name as planCompanyName,
+    <!--查询单个年计划-->
+    <select id="getPlanById" resultType="com.pojo.YearPlan">
+        SELECT id,
                exec_time,
-               a.phone        as planPhone,
-               a.address      as planAddress,
-               type,
-               `rank`,
-               status,
-               customer_id,
-               user_id,
-               s.id           as customerId,
-               s.company_name as customerCompanyName,
-               man,
-               s.phone        as customerPhone,
-               s.address      as customerAddress,
-               plan_flag,
-               d.id,
-               name,
-               password,
-               d.phone        as userPhone,
-               role_id
-        from plan as a
-                 inner join `customer` s ON a.customer_id = s.id
-                 left join `user` d ON a.user_id = d.id
-        where a.id = #{id};
+               overview,
+               situation,
+               target,
+               first_user_id,
+               first_idea,
+               second_user_id,
+               second_idea,
+               apply_user_id,
+               status
+        from year_plan
+        where id = #{id}
     </select>
 
     <!--修改计划-->
@@ -153,13 +156,6 @@
         from year_plan
         where id = #{id}
     </delete>
-
-    <!--获得年计划-->
-    <select id="getYearPlanById" resultType="com.pojo.YearPlan">
-        SELECT *
-        from year_plan
-        where id = #{id}
-    </select>
 
 
 </mapper>

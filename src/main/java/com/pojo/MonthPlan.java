@@ -9,7 +9,7 @@ import lombok.Data;
  * @date 2020-04-19 18:17:13 
  */
 @Data
-public class MonthYear  implements Serializable {
+public class MonthPlan  implements Serializable {
 
 	private static final long serialVersionUID =  6068792594797437541L;
 

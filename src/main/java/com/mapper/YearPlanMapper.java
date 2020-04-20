@@ -1,6 +1,6 @@
 package com.mapper;
 
-import com.pojo.Plan;
+import com.pojo.YearPlan;
 import com.pojo.YearPlan;
 import com.vo.PlanVO;
 import org.apache.ibatis.annotations.Mapper;
@@ -13,15 +13,13 @@ import java.util.List;
 @Repository
 public interface YearPlanMapper {
 
-    List<PlanVO> queryPlanList(@Param("status") Integer status, @Param("type") Integer type, @Param("execTime") String execTime, @Param("companyName") String companyName);
+    List<YearPlan> queryPlanList();
 
-    int addPlan(@Param("plan") Plan plan);
+    int addPlan(@Param("plan") YearPlan plan);
 
-    PlanVO getPlanById(@Param("id") Integer id);
+    YearPlan getPlanById(@Param("id") Integer id);
 
-    YearPlan getYearPlanById(@Param("id") Integer id);
-
-    int updatePlan(@Param("plan") Plan plan);
+    int updatePlan(@Param("plan") YearPlan plan);
 
     int removePlanById(@Param("id") Integer id);
 
