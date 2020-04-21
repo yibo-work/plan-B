@@ -28,4 +28,6 @@ public interface UserMapper {
     List<User> queryUserList();
 
     User getUserById(@Param("userId") Integer userId);
+
+    User getUserByRoleId(@Param("roleId") Integer roleId);
 }

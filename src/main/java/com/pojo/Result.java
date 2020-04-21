@@ -1,34 +1,34 @@
 package com.pojo;
 
+import java.io.Serializable;
 import lombok.Data;
 
-import java.io.Serializable;
-
 /**
- * @author Clrvn
- * @date 2020-04-19 17:23:34
+ * @description null
+ * @author  Clrvn
+ * @date 2020-04-22 01:00:21 
  */
 @Data
-public class Result implements Serializable {
+public class Result  implements Serializable {
 
-    private static final long serialVersionUID = 6446745856125678926L;
+	private static final long serialVersionUID =  7163346269371180986L;
 
-    private Integer id;
+	private Integer id;
 
-    private String sales;
+	private String sales;
 
-    private String brand;
+	private String brand;
 
-    private String status;
+	private String status;
 
-    private String group;
+	private String group;
 
-    private String earnings;
+	private String earnings;
 
-    private String range;
+	private String range;
 
-    private String problem;
+	private String problem;
 
-    private Integer customerId;
+	private Integer customerId;
 
 }

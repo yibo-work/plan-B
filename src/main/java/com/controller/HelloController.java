@@ -34,7 +34,7 @@ public class HelloController {
         //默认，不用登录
         UserVO user2 = new UserVO();
         User user = new User();
-        user.setId(3);
+        user.setId(1);
         user.setName("chen");
         user.setPassword("123qwe");
         user.setRoleId(4);
@@ -251,5 +251,37 @@ public class HelloController {
     @GetMapping("/resultAdd")
     public String resultAdd() {
         return "resultAdd";
+    }
+
+    /**
+     * 年计划详情
+     */
+    @GetMapping("/yearPlanView")
+    public String yearPlanView() {
+        return "yearPlanView";
+    }
+
+    /**
+     * 年计划审批
+     */
+    @GetMapping("/yearPlanApprove")
+    public String yearPlanApprove() {
+        return "yearPlanApprove";
+    }
+
+    /**
+     * 季度计划详情
+     */
+    @GetMapping("/quarterPlanView")
+    public String quarterPlanView() {
+        return "quarterPlanView";
+    }
+
+    /**
+     * 月计划详情
+     */
+    @GetMapping("/monthPlanView")
+    public String monthPlanView() {
+        return "monthPlanView";
     }
 }

@@ -2,17 +2,25 @@ package com.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.mapper.UserMapper;
 import com.mapper.YearPlanMapper;
+import com.pojo.User;
 import com.pojo.YearPlan;
 import com.service.IYearPlanService;
+import com.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.servlet.http.HttpSession;
 
 @Service
 public class YearPlanServiceImpl implements IYearPlanService {
 
     @Autowired
+
     private YearPlanMapper yearPlanMapper;
+    @Autowired
+    private UserMapper userMapper;
 
     @Override
     public PageInfo<YearPlan> queryPlanList(Integer pageNum, Integer pageSize) {
@@ -21,7 +29,11 @@ public class YearPlanServiceImpl implements IYearPlanService {
     }
 
     @Override
-    public int addPlan(YearPlan plan) {
+    public int addPlan(YearPlan plan, HttpSession session) {
+        UserVO userVO = (UserVO) session.getAttribute("USER");
+        User userByRoleId = userMapper.getUserByRoleId(5);
+        plan.setApplyUserId(userVO.getUser().getId());
+        plan.setFirstUserId(userByRoleId.getId());
         return yearPlanMapper.addPlan(plan);
     }
 

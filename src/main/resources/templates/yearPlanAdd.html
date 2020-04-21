@@ -2,7 +2,7 @@
 <html class="x-admin-sm" lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>添加年计划</title>
+    <title>新增年度客户拜访计划</title>
     <meta content="webkit" name="renderer">
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8" name="viewport"/>
@@ -18,20 +18,6 @@
     <div class="layui-row">
         <form class="layui-form">
             <div class="layui-form-item">
-                <label class="layui-form-label" for="customerList">
-                    <span class="x-red">*</span>客户公司
-                </label>
-                <div class="layui-input-block">
-                    <div class="layui-input-inline layui-show-xs-block">
-                        <select id="customerList" name="customerId" lay-filter='selectCustomer'>
-                            <option :value="customer.id" v-for="customer,index in customerList">{{customer.companyName}}</option>
-                        </select>
-                        <input class="layui-input" id="companyName"  name="companyName"
-                               type="hidden">
-                    </div>
-                </div>
-            </div>
-            <div class="layui-form-item">
                 <label class="layui-form-label" for="execTime">
                     <span class="x-red">*</span>执行时间
                 </label>
@@ -42,27 +28,45 @@
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label" for="phone">
-                    <span class="x-red">*</span>联系电话
+                <label class="layui-form-label" for="overview">
+                    <span class="x-red">*</span>计划概述
                 </label>
                 <div class="layui-input-block">
                     <div class="layui-input-inline layui-show-xs-block">
-                        <input class="layui-input" id="phone" lay-verify="required" name="phone" type="text">
+                        <input class="layui-input" id="overview" lay-verify="required" name="overview" type="text">
                     </div>
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label" for="address">
-                    <span class="x-red">*</span>公司地址
+                <label class="layui-form-label" for="situation">
+                    <span class="x-red">*</span>目前拜访概况
                 </label>
                 <div class="layui-input-block">
                     <div class="layui-input-inline layui-show-xs-block">
-                        <input class="layui-input" id="address" lay-verify="required" name="address" type="text">
-                        <!--这里type代表计划类型，1：周2：月3：季度4：年-->
-                        <input class="layui-input" id="type" lay-verify="required" name="type" type="hidden" value="4">
-                        <input class="layui-input" id="status" lay-verify="required" name="status" type="hidden"
-                               value="0">
-                        <input class="layui-input" id="rank" lay-verify="required" name="rank" type="hidden" value="0">
+                        <textarea class="layui-textarea" id="situation" rows="4" lay-verify="required" name="situation"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" for="target">
+                    <span class="x-red">*</span>计划目标
+                </label>
+                <div class="layui-input-block">
+                    <div class="layui-input-inline layui-show-xs-block">
+                        <textarea class="layui-textarea" id="target" rows="4" lay-verify="required" name="target"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" for="secondUserId">
+                    <span class="x-red">*</span>审批人
+                </label>
+                <div class="layui-input-block">
+                    <div class="layui-input-inline layui-show-xs-block">
+                        <select id="secondUserId" name="secondUserId">
+                            <option :value="user.id" v-for="user,index in userList">{{user.name}}</option>
+                        </select>
+                        <input class="layui-input" id="companyName"  name="companyName" type="hidden">
                     </div>
                 </div>
             </div>
@@ -87,7 +91,7 @@
                 function (data) {
                     //发异步，把数据提交给java
                     $.ajax({
-                        url: "/plan/addPlan",
+                        url: "/yearPlan/addPlan",
                         data: JSON.stringify(data.field),
                         dataType: "json",
                         type: "post",
@@ -109,23 +113,16 @@
 
                     return false;
                 });
-            form.on('select(selectCustomer)', function (data) {
+            form.on('select(selectUser)', function (data) {
                 var customerId = data.value;
 
                 $.ajax({
-                    url: "/customer/getCustomer",
-                    data: {
-                        "customerId": customerId
-                    },
+                    url: "/user/queryUserList",
                     dataType: "json",
                     type: "get",
                     success: function (result) {
                         if (result.code === 200) {
                             var customer = result.data;
-                             //赋值
-                            $("[name=phone]").val(customer.phone);
-                            $("[name=address]").val(customer.address);
-                            $("[name=companyName]").val(customer.companyName);
                         } else {
                             layer.alert("获取修改客户信息失败！");
                         }
@@ -137,20 +134,20 @@
     vm = new Vue({
         el: "#vmAddYearPlan",
         data: {
-            customerList: []
+            userList: []
         },
         methods: {},
         created: function () {
             var _this = this;
             $.ajax({
-                url: "/customer/getAllCustomer",
+                url: "/user/queryUserList",
                 dataType: "json",
                 type: "get",
                 success: function (result) {
                     if (result.code === 200) {
-                        _this.customerList = result.data;
+                        _this.userList = result.data;
                     } else {
-                        layer.alert("获取所有客户信息失败！");
+                        layer.alert("获取审批人信息失败！");
                     }
                 }
             });

@@ -50,6 +50,11 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
+    public List<User> queryUserList() {
+        return userMapper.queryUserList();
+    }
+
+    @Override
     public PageInfo<User> queryUserList(Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         return new PageInfo<>(userMapper.queryUserList());

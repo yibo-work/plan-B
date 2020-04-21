@@ -45,6 +45,11 @@ public class YearPlan implements Serializable {
     private Integer firstUserId;
 
     /**
+     * 一级审批人名称
+     */
+    private String firstUserName;
+
+    /**
      * 一级审批人意见
      */
     private String firstIdea;
@@ -53,6 +58,11 @@ public class YearPlan implements Serializable {
      * 二级审批人id
      */
     private Integer secondUserId;
+
+    /**
+     * 二级审批人名称
+     */
+    private String secondUserName;
 
     /**
      * 二级审批人意见
@@ -65,8 +75,15 @@ public class YearPlan implements Serializable {
     private Integer applyUserId;
 
     /**
+     * 二级审批人名称
+     */
+    private String applyUserName;
+
+
+    /**
      * 审批状态
      */
     private Integer status;
+
 
 }

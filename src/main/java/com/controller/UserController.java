@@ -83,4 +83,9 @@ public class UserController {
         return ResultVOUtil.success(userService.getUserList());
     }
 
+    @RequestMapping("/queryUserList")
+    public ResultVO queryUserList() {
+        return ResultVOUtil.success(userService.queryUserList());
+    }
+
 }

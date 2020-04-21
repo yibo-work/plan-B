@@ -2,7 +2,7 @@
 <html class="x-admin-sm" lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>编辑年计划</title>
+    <title>年计划详情</title>
     <meta content="webkit" name="renderer">
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8" name="viewport"/>
@@ -18,56 +18,118 @@
     <div class="layui-row">
         <form class="layui-form">
             <div class="layui-form-item">
-                <label class="layui-form-label" for="customerList">
-                    <span class="x-red">*</span>客户公司
-                </label>
-                <div class="layui-input-block">
-                    <div class="layui-input-inline layui-show-xs-block">
-                        <select id="customerList" lay-filter='selectCustomer' name="customerId">
-                            <option :value="customer.id" v-for="customer,index in customerList">{{customer.companyName}}</option>
-                        </select>
-                        <input class="layui-input" id="companyName"  name="companyName" type="hidden"
-                               :value="yearPlan.companyName">
-                    </div>
-                </div>
-            </div>
-            <div class="layui-form-item">
                 <label class="layui-form-label" for="execTime">
-                    <span class="x-red">*</span>执行时间
+                    执行时间
                 </label>
                 <div class="layui-input-block">
                     <div class="layui-input-inline layui-show-xs-block">
-                        <input class="layui-input" id="execTime" lay-verify="required" name="execTime" type="text"
-                               :value="yearPlan.execTime">
+                        <input :value="yearPlan.execTime" class="layui-input" id="execTime"
+                               name="execTime"
+                               readonly type="text">
                     </div>
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label" for="phone">
-                    <span class="x-red">*</span>电话
+                <label class="layui-form-label" for="overview">
+                    计划概述
                 </label>
                 <div class="layui-input-block">
                     <div class="layui-input-inline layui-show-xs-block">
-                        <input class="layui-input" id="phone" lay-verify="required" name="phone" type="text"
-                               :value="yearPlan.phone">
+                        <input :value="yearPlan.overview" class="layui-input" id="overview"
+                               name="overview"
+                               readonly type="text">
                     </div>
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label" for="address">
-                    <span class="x-red">*</span>地址
+                <label class="layui-form-label" for="situation">
+                    目前拜访概况
                 </label>
                 <div class="layui-input-block">
                     <div class="layui-input-inline layui-show-xs-block">
-                        <input class="layui-input" id="address" lay-verify="required" name="address" type="text"
-                               :value="yearPlan.address">
+                        <textarea class="layui-textarea" id="situation" name="situation" readonly
+                                  rows="4"
+                                  v-text="yearPlan.situation"></textarea>
                     </div>
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label"></label>
-                <button class="layui-btn" lay-filter="update" lay-submit="">
-                    确认修改
+                <label class="layui-form-label" for="target">
+                    计划目标
+                </label>
+                <div class="layui-input-block">
+                    <div class="layui-input-inline layui-show-xs-block">
+                        <textarea class="layui-textarea" id="target" name="target" readonly
+                                  rows="4"
+                                  v-text="yearPlan.target"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" for="applyUserName">
+                    申请人
+                </label>
+                <div class="layui-input-block">
+                    <div class="layui-input-inline layui-show-xs-block">
+                        <input :value="yearPlan.applyUserName" class="layui-input" id="applyUserName"
+                               name="applyUserName"
+                               readonly type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" for="firstUserName">
+                    部门经理
+                </label>
+                <div class="layui-input-block">
+                    <div class="layui-input-inline layui-show-xs-block">
+                        <input :value="yearPlan.firstUserName" class="layui-input" id="firstUserName"
+                               name="firstUserName"
+                               readonly type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" for="firstIdea">
+                    审批意见
+                </label>
+                <div class="layui-input-block">
+                    <div class="layui-input-inline layui-show-xs-block">
+                        <textarea class="layui-textarea" id="firstIdea" name="firstIdea" readonly
+                                  rows="4"
+                                  v-text="yearPlan.firstIdea"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" for="secondUserName">
+                    审批人
+                </label>
+                <div class="layui-input-block">
+                    <div class="layui-input-inline layui-show-xs-block">
+                        <input :value="yearPlan.secondUserName" class="layui-input" id="secondUserName"
+
+                               name="secondUserName"
+                               readonly type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" for="secondIdea">
+                    审批意见
+                </label>
+                <div class="layui-input-block">
+                    <div class="layui-input-inline layui-show-xs-block">
+                        <textarea class="layui-textarea" id="secondIdea" name="secondIdea" readonly
+                                  rows="4"
+                                  v-text="yearPlan.secondIdea"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" for="secondUserName"></label>
+                <button class="layui-btn" lay-filter="view" lay-submit="" style="width: 100px;">
+                    返回
                 </button>
             </div>
         </form>
@@ -75,45 +137,30 @@
 </div>
 <script charset="UTF-8" type="text/javascript">
 
-    var updateYearPlanId = sessionStorage.getItem("updateYearPlanId");
-    var updateYearPlanCustomerId = sessionStorage.getItem("updateYearPlanCustomerId");
+    var viewYearPlanId = sessionStorage.getItem("viewYearPlanId");
 
     vm = new Vue({
         el: "#vmUpdateYearPlan",
         data: {
-            yearPlan: {},
-            customerList: []
+            yearPlan: {}
         },
         created: function () {
             var _this = this;
             $.ajax({
-                url: "/plan/getPlan",
+                url: "/yearPlan/getPlan",
                 data: {
-                    "planId": updateYearPlanId
+                    "planId": viewYearPlanId
                 },
                 dataType: "json",
                 type: "get",
                 success: function (result) {
                     if (result.code === 200) {
-                        _this.yearPlan = result.data.plan;
+                        _this.yearPlan = result.data;
                     } else {
                         layer.alert("获取修改年计划信息失败！");
                     }
                 }
             });
-            $.ajax({
-                url: "/customer/getAllCustomer",
-                dataType: "json",
-                type: "get",
-                success: function (result) {
-                    if (result.code === 200) {
-                        _this.customerList = result.data;
-                    } else {
-                        layer.alert("获取所有客户信息失败！");
-                    }
-                }
-            });
-
         }
     });
 
@@ -123,68 +170,13 @@
                 layer = layui.layer,
                 laydate = layui.laydate;
 
-    $("[name=customerId]").val(updateYearPlanCustomerId);
-            layui.form.render('select');
             //监听提交
-            form.on('submit(update)',
-                function (data) {
-                    var yearPlan = {};
-
-                    //组装数据
-                    yearPlan.id = updateYearPlanId;
-                    yearPlan.customerId = data.field.customerId;
-                    yearPlan.companyName = data.field.companyName;
-                    yearPlan.execTime = data.field.execTime;
-                    yearPlan.phone = data.field.phone;
-                    yearPlan.address = data.field.address;
-
-                    //发异步，把数据提交给controller
-                    $.ajax({
-                        url: "plan/updatePlan",
-                        data: JSON.stringify(yearPlan),
-                        dataType: "json",
-                        contentType: "application/json",
-                        type: "put",
-                        success: function (result) {
-                            if (result.code === 200) {
-                                layer.msg("修改成功", {icon: 6, time: 500},
-                                    function () {
-                                        //关闭当前frame
-                                        xadmin.close();
-                                        // 可以对主窗口进行刷新
-                                        top.location.reload();
-                                    });
-                            } else {
-                                layer.alert(result.msg);
-                            }
-                        }
-                    });
-
+            form.on('submit(view)',
+                function () {
+                    //关闭当前frame
+                    xadmin.close();
                     return false;
                 });
-            form.on('select(selectCustomer)', function (data) {
-                var customerId = data.value;
-
-                $.ajax({
-                    url: "/customer/getCustomer",
-                    data: {
-                        "customerId": customerId
-                    },
-                    dataType: "json",
-                    type: "get",
-                    success: function (result) {
-                        if (result.code === 200) {
-                            var customer = result.data;
-                             //赋值
-                            $("[name=phone]").val(customer.phone);
-                            $("[name=address]").val(customer.address);
-                            $("[name=companyName]").val(customer.companyName);
-                        } else {
-                            layer.alert("获取修改客户信息失败！");
-                        }
-                    }
-                });
-            })
         });
 </script>
 </body>

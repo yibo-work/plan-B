@@ -43,27 +43,27 @@
                                 <td>1</td>
                                 <td>模板1.docx</td>
                                 <td class="td-manage ">
-                                    <a @click="downloadTemplate('模板1.docx') " href="javascript:void(0);" title="下载拜访计划模板1">
-                                        <i class="layui-icon "></i>
-                                    </a>
+                                    <button @click="downloadTemplate('模板1.docx')" class="layui-btn layui-btn-primary">
+                                        <i class="layui-icon "></i>下载
+                                    </button>
                                 </td>
                             </tr>
                             <tr>
                                 <td>1</td>
                                 <td>模板2.docx</td>
                                 <td class="td-manage ">
-                                    <a @click="downloadTemplate('模板2.docx') " href="javascript:void(0);" title="下载拜访计划模板2">
-                                        <i class="layui-icon "></i>
-                                    </a>
+                                    <button @click="downloadTemplate('模板2.docx')" class="layui-btn layui-btn-primary">
+                                        <i class="layui-icon "></i>下载
+                                    </button>
                                 </td>
                             </tr>
                             <tr>
                                 <td>1</td>
                                 <td>模板3.docx</td>
                                 <td class="td-manage ">
-                                    <a @click="downloadTemplate('模板3.docx') " href="javascript:void(0);" title="下载拜访计划模板3">
-                                        <i class="layui-icon "></i>
-                                    </a>
+                                    <button @click="downloadTemplate('模板3.docx')" class="layui-btn layui-btn-primary">
+                                        <i class="layui-icon "></i>下载
+                                    </button>
                                 </td>
                             </tr>
                             </tbody>
@@ -82,8 +82,7 @@
 
     vm = new Vue({
         el: "#vmPlan",
-        data: {
-        },
+        data: {},
         methods: {
             downloadTemplate: function (name) {
                 window.location.href = "/plan/downloadTemplate?name=" + name;

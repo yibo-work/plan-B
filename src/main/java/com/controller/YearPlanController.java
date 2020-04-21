@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @RestController
@@ -35,8 +36,8 @@ public class YearPlanController {
     }
 
     @PostMapping("/addPlan")
-    public ResultVO addPlan(@RequestBody YearPlan plan) {
-        yearPlanService.addPlan(plan);
+    public ResultVO addPlan(@RequestBody YearPlan plan, HttpSession session) {
+        yearPlanService.addPlan(plan, session);
         return ResultVOUtil.success();
     }
 

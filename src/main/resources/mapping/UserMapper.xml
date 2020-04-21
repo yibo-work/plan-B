@@ -83,6 +83,12 @@
         from user
         where id = #{userId,jdbcType=INTEGER};
     </select>
+    <select id="getUserByRoleId" resultType="com.pojo.User">
+        select *
+        from user
+        where role_id = #{roleId,jdbcType=INTEGER}
+        limit 1;
+    </select>
 
 
 </mapper>

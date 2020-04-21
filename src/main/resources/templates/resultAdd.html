@@ -14,60 +14,128 @@
     <script charset="utf-8" th:src="@{/js/vue.js}" type="text/javascript"></script>
 </head>
 <body>
-<div class="layui-fluid">
+<div class="layui-fluid" id="vmAddResult">
     <div class="layui-row">
         <form class="layui-form">
             <div class="layui-form-item">
-                <label class="layui-form-label" for="companyName">
-                    <span class="x-red">*</span>公司名称
+                <label class="layui-form-label" for="customerId">
+                    <span class="x-red">*</span>拜访客户
                 </label>
                 <div class="layui-input-block">
                     <div class="layui-input-inline layui-show-xs-block">
-                        <input class="layui-input" id="companyName"  name="companyName"
-                               type="text">
+                        <select id="customerId" name="customerId">
+                            <option :value="customer.id" v-for="customer,index in customerList">{{customer.companyName}}</option>
+                        </select>
                     </div>
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label" for="man">
-                    <span class="x-red">*</span>负责人
+                <label class="layui-form-label" for="sales">
+                    <span class="x-red">*</span>商品销量
                 </label>
                 <div class="layui-input-block">
                     <div class="layui-input-inline layui-show-xs-block">
-                        <input class="layui-input" id="man" lay-verify="required" name="man" type="text">
+                        <input class="layui-input" id="sales" lay-verify="required" name="sales" type="text">
                     </div>
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label" for="phone">
-                    <span class="x-red">*</span>联系电话
+                <label class="layui-form-label" for="brand">
+                    <span class="x-red">*</span>主销品牌
                 </label>
                 <div class="layui-input-block">
                     <div class="layui-input-inline layui-show-xs-block">
-                        <input class="layui-input" id="phone" lay-verify="required" name="phone" type="text">
+                        <input class="layui-input" id="brand" lay-verify="required" name="brand" type="text">
                     </div>
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label" for="address">
-                    <span class="x-red">*</span>公司地址
+                <label class="layui-form-label" for="status">
+                    <span class="x-red">*</span>新品销售情况
                 </label>
                 <div class="layui-input-block">
                     <div class="layui-input-inline layui-show-xs-block">
-                        <input class="layui-input" id="address" lay-verify="required" name="address" type="text">
+                        <input class="layui-input" id="status" lay-verify="required" name="status" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" for="group">
+                    <span class="x-red">*</span>消费群体
+                </label>
+                <div class="layui-input-block">
+                    <div class="layui-input-inline layui-show-xs-block">
+                        <input class="layui-input" id="group" lay-verify="required" name="group" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" for="earnings">
+                    <span class="x-red">*</span>盈利情况
+                </label>
+                <div class="layui-input-block">
+                    <div class="layui-input-inline layui-show-xs-block">
+                        <input class="layui-input" id="earnings" lay-verify="required" name="earnings" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" for="range">
+                    <span class="x-red">*</span>购买金额区间
+                </label>
+                <div class="layui-input-block">
+                    <div class="layui-input-inline layui-show-xs-block">
+                        <input class="layui-input" id="range" lay-verify="required" name="range" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" for="problem">
+                    <span class="x-red">*</span>客户存在问题
+                </label>
+                <div class="layui-input-block">
+                    <div class="layui-input-inline layui-show-xs-block">
+                        <input class="layui-input" id="problem" lay-verify="required" name="problem" type="text">
                     </div>
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label"></label>
-                <button class="layui-btn" lay-filter="add" lay-submit="">
-                    确认添加
+                <button class="layui-btn" lay-filter="add" lay-submit="" style="width:77px;margin-right: 20px">
+                    提交
+                </button>
+                <button class="layui-btn" id="reset" style="width:77px;" type="reset">
+                    清空
                 </button>
             </div>
         </form>
     </div>
 </div>
 <script charset="UTF-8" type="text/javascript">
+
+    vm = new Vue({
+        el: "#vmAddResult",
+        data: {
+            customerList: []
+        },
+        created: function () {
+            var _this = this;
+            $.ajax({
+                url: "/customer/getAllCustomer",
+                dataType: "json",
+                type: "get",
+                success: function (result) {
+                    if (result.code === 200) {
+                        _this.customerList = result.data;
+                    } else {
+                        layer.alert("获取所有客户信息失败！");
+                    }
+                }
+            });
+
+        }
+    });
+
 
     layui.use(['form', 'layer'],
         function () {
@@ -79,7 +147,7 @@
                 function (data) {
                     //发异步，把数据提交给java
                     $.ajax({
-                        url: "/customer/addCustomer",
+                        url: "/result/addResult",
                         data: JSON.stringify(data.field),
                         dataType: "json",
                         type: "post",
@@ -88,10 +156,7 @@
                             if (result.code === 200) {
                                 layer.msg("增加成功", {icon: 6, time: 500},
                                     function () {
-                                        //关闭当前frame
-                                        xadmin.close();
-                                        // 可以对父窗口进行刷新
-                                        xadmin.father_reload();
+                                        $("#reset").click();
                                     });
                             } else {
                                 layer.alert(result.msg);

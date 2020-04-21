@@ -23,6 +23,8 @@ public interface IUserService {
 
     List<User> getUserList();
 
+    List<User> queryUserList();
+
     PageInfo<User> queryUserList(Integer pageNum, Integer pageSize);
 
     User getUserById(Integer userId);
