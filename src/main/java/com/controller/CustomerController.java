@@ -15,16 +15,20 @@ public class CustomerController {
     @Autowired
     private ICustomerService customerService;
 
-    @GetMapping("/page")
-    public PageInfo<Customer> queryAllCustomer(@RequestParam("pageNum") Integer pageNum, @RequestParam("pageSize") Integer pageSize  , @RequestParam(required = false, name = "planFlag") Integer planFlag) {
+    /*@GetMapping("/page")
+    public PageInfo<Customer> queryAllCustomer(@RequestParam("pageNum") Integer pageNum, @RequestParam("pageSize") Integer pageSize, @RequestParam(required = false, name = "planFlag") Integer planFlag) {
         return customerService.queryCustomerList(pageNum, pageSize, planFlag);
+    }*/
+
+    @GetMapping("/page")
+    public PageInfo<Customer> queryAllCustomer(@RequestParam("pageNum") Integer pageNum, @RequestParam("pageSize") Integer pageSize, @RequestParam(required = false, name = "result") String result) {
+        return customerService.queryCustomerListByResult(pageNum, pageSize, result);
     }
 
     @DeleteMapping("/removeCustomer")
     public ResultVO removeCustomer(@RequestParam(value = "customerId") Integer customerId) {
         customerService.removeCustomerById(customerId);
         return ResultVOUtil.success();
-
     }
 
     @PostMapping("/addCustomer")

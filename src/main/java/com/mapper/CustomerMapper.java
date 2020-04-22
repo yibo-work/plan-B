@@ -21,4 +21,8 @@ public interface CustomerMapper {
 
     int removeCustomerById(@Param("id") Integer id);
 
+    /**
+     * 查询客户是否存被拜访
+     */
+    List<Customer> queryCustomerListByResult(@Param("result") String result);
 }

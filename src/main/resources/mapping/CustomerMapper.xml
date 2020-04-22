@@ -59,5 +59,14 @@
         where id = #{id}
     </delete>
 
+    <!--查询客户是否被拜访-->
+    <select id="queryCustomerListByResult" resultType="com.pojo.Customer">
+        select id, company_name, man, phone, address, plan_flag
+        from customer a
+        <where>
+            <if test="result != null and result != ''">
+            and ${result} (SELECT 1 from result s where a.id = s.customer_id)
+        </where>
+    </select>
 
 </mapper>

@@ -284,4 +284,20 @@ public class HelloController {
     public String monthPlanView() {
         return "monthPlanView";
     }
+
+    /**
+     * 无预约客户统计
+     */
+    @GetMapping("/customerNoResult")
+    public String customerNoResult() {
+        return "customerNoResult";
+    }
+
+    /**
+     * 无预约客户统计
+     */
+    @GetMapping("/customerResult")
+    public String customerResult() {
+        return "customerResult";
+    }
 }

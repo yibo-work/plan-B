@@ -12,6 +12,8 @@ public interface ICustomerService {
 
     int addCustomer(Customer classroom);
 
+    PageInfo<Customer> queryCustomerListByResult(Integer pageNum, Integer pageSize,String result);
+
     List<Customer> getAllCustomer();
 
     Customer getCustomerById(Integer id);
