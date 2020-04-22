@@ -92,24 +92,6 @@ public class HelloController {
     }
 
     /**
-     * WEEK
-     */
-    @GetMapping("/weekPlanManage")
-    public String weekPlanManage() {
-        return "weekPlanManage";
-    }
-
-    @GetMapping("/weekPlanUpdate")
-    public String weekPlanUpdate() {
-        return "weekPlanUpdate";
-    }
-
-    @GetMapping("/weekPlanAdd")
-    public String weekPlanAdd() {
-        return "weekPlanAdd";
-    }
-
-    /**
      * MONTH
      */
     @GetMapping("/monthPlanManage")
@@ -161,57 +143,6 @@ public class HelloController {
     @GetMapping("/yearPlanAdd")
     public String yearPlanAdd() {
         return "yearPlanAdd";
-    }
-
-
-    /**
-     * 计划管理
-     */
-    @GetMapping("/planManage")
-    public String planManage() {
-        return "planManage";
-    }
-
-    @GetMapping("/planUpdate")
-    public String planUpdate() {
-        return "planUpdate";
-    }
-
-    @GetMapping("/planUpdateRank")
-    public String planUpdateRank() {
-        return "planUpdateRank";
-    }
-
-    /**
-     * 计划审批
-     */
-    @GetMapping("/planApproval")
-    public String planApproval() {
-        return "planApproval";
-    }
-
-    /**
-     * 执行计划记录
-     */
-    @GetMapping("/planPrint")
-    public String planPrint() {
-        return "planPrint";
-    }
-
-    /**
-     * 已执行计划查询
-     */
-    @GetMapping("/planQuery")
-    public String planQuery() {
-        return "planQuery";
-    }
-
-    /**
-     * 无计划客户查询
-     */
-    @GetMapping("/customerNoPlan")
-    public String customerNoPlan() {
-        return "customerNoPlan";
     }
 
     /**
