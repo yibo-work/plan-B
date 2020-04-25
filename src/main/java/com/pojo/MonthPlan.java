@@ -1,56 +1,63 @@
 package com.pojo;
 
-import java.io.Serializable;
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
+ * @author Clrvn
  * @description 月计划
- * @author  Clrvn
- * @date 2020-04-19 18:17:13 
+ * @date 2020-04-19 18:17:13
  */
 @Data
-public class MonthPlan  implements Serializable {
+public class MonthPlan implements Serializable {
 
-	private static final long serialVersionUID =  6068792594797437541L;
+    private static final long serialVersionUID = 6068792594797437541L;
 
-	/**
-	 * 主键id
-	 */
-	private Integer id;
+    /**
+     * 主键id
+     */
+    private Integer id;
 
-	/**
-	 * 计划时间
-	 */
-	private String execTime;
+    /**
+     * 计划时间
+     */
+    private String execTime;
 
-	/**
-	 * 计划目标
-	 */
-	private String target;
+    /**
+     * 计划目标
+     */
+    private String target;
 
-	/**
-	 * 客户id集合
-	 */
-	private String customerIds;
+    /**
+     * 客户id
+     */
+    private String customerIds;
+    private String customerList;
 
-	/**
-	 * 执行人id
-	 */
-	private Integer execUserId;
 
-	/**
-	 * 备注
-	 */
-	private String remark;
+    /**
+     * 执行人id
+     */
+    private Integer execUserId;
+    /**
+     * 执行人电话
+     */
+    private String execUserPhone;
 
-	/**
-	 * 拜访方式
-	 */
-	private String methods;
+    /**
+     * 备注
+     */
+    private String remark;
 
-	/**
-	 * 季度计划id
-	 */
-	private Integer quarterPlanId;
+    /**
+     * 拜访方式
+     */
+    private String methods;
+
+    /**
+     * 季度计划id
+     */
+    private Integer quarterPlanId;
 
 }

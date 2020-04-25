@@ -2,7 +2,7 @@
 <html class="x-admin-sm" lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>新增月计划</title>
+    <title>月计划详情</title>
     <meta content="webkit" name="renderer">
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8" name="viewport"/>
@@ -14,16 +14,17 @@
     <script charset="utf-8" th:src="@{/js/vue.js}" type="text/javascript"></script>
 </head>
 <body>
-<div class="layui-fluid" id="vmAddMonthPlan">
+<div class="layui-fluid" id="vmUpdateMonthPlan">
     <div class="layui-row">
-        <form class="layui-form" onsubmit="return false;">
+        <form class="layui-form">
             <div class="layui-form-item">
                 <label class="layui-form-label" for="execTime">
                     <span class="x-red">*</span>执行时间
                 </label>
                 <div class="layui-input-block">
                     <div class="layui-input-inline layui-show-xs-block">
-                        <input class="layui-input" id="execTime" lay-verify="required" name="execTime" type="text">
+                        <input class="layui-input" id="execTime" lay-verify="required" name="execTime" readonly
+                               type="text" v-model="monthPlan.execTime">
                     </div>
                 </div>
             </div>
@@ -33,7 +34,8 @@
                 </label>
                 <div class="layui-input-block">
                     <div class="layui-input-inline layui-show-xs-block">
-                        <input class="layui-input" id="target" lay-verify="required" name="target" type="text">
+                        <input class="layui-input" id="target" lay-verify="required" name="target" readonly
+                               type="text" v-model="monthPlan.target">
                     </div>
                 </div>
             </div>
@@ -43,21 +45,11 @@
                 </label>
                 <div class="layui-input-block">
                     <div class="layui-input-inline layui-show-xs-block">
-                        <!--<select id="customerList" name="customerIds">
-                            <option :value="customer.id" v-for="customer,index in customerList">
-                                {{customer.companyName}}
-                            </option>
-                        </select>-->
-                        <input class="layui-input" id="customerList" lay-verify="required" name="customerList"
-                               readonly type="text">
+                        <input :value="monthPlan.customerList" class="layui-input" id="customerList"
+                               lay-verify="required"
+                               name="customerList" readonly type="text">
                         <input class="layui-input" id="customerIds" lay-verify="required"
                                name="customerIds" type="hidden">
-                    </div>
-                    <div class="layui-input-inline layui-show-xs-block">
-                        <button class="layui-btn" onclick="xadmin.open('客户列表','/customerList', 700, 600)"
-                                style="width: 100px;">
-                            选择客户
-                        </button>
                     </div>
                 </div>
             </div>
@@ -67,7 +59,8 @@
                 </label>
                 <div class="layui-input-block">
                     <div class="layui-input-inline layui-show-xs-block">
-                        <input class="layui-input" id="remark" lay-verify="required" name="remark" type="text">
+                        <input class="layui-input" id="remark" lay-verify="required" name="remark" readonly
+                               type="text" v-model="monthPlan.remark">
                     </div>
                 </div>
             </div>
@@ -77,7 +70,7 @@
                 </label>
                 <div class="layui-input-block">
                     <div class="layui-input-inline layui-show-xs-block">
-                        <select id="execUserId" name="execUserId">
+                        <select id="execUserId" name="execUserId" readonly v-model="monthPlan.execUserId">
                             <option :value="user.id" v-for="user,index in userList">{{user.name}}</option>
                         </select>
                     </div>
@@ -90,10 +83,10 @@
                 <div class="layui-input-block">
                     <div class="layui-input-inline layui-show-xs-block">
                         <div class="layui-input-inline">
-                            <input id="methods" lay-skin="primary" name="methods" title="电话拜访"
+                            <input id="methods" lay-skin="primary" name="methods" readonly title="电话拜访"
                                    type="checkbox"
                                    value="电话拜访"/>
-                            <input lay-skin="primary" name="methods" title="实地拜访"
+                            <input lay-skin="primary" name="methods" readonly title="实地拜访"
                                    type="checkbox"
                                    value="实地拜访"/>
                         </div>
@@ -102,11 +95,8 @@
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label"></label>
-                <button class="layui-btn" lay-filter="add" lay-submit="" style="width:77px;margin-right: 20px">
-                    确认
-                </button>
-                <button class="layui-btn layui-btn-primary" onclick="xadmin.close();" style="width:77px;">
-                    取消
+                <button class="layui-btn" onclick="xadmin.close();" style="width: 100px;">
+                    返回
                 </button>
             </div>
         </form>
@@ -114,15 +104,14 @@
 </div>
 <script charset="UTF-8" type="text/javascript">
 
-    layui.use(['form'], function () {
-    });
+    var viewMonthPlanId = sessionStorage.getItem("viewMonthPlanId");
 
     vm = new Vue({
-        el: "#vmAddMonthPlan",
+        el: "#vmUpdateMonthPlan",
         data: {
             customerList: [],
-            userList: []
-
+            userList: [],
+            monthPlan: {}
         },
         created: function () {
             var _this = this;
@@ -150,52 +139,35 @@
                     }
                 }
             });
-
+            $.ajax({
+                url: "/monthPlan/getPlan",
+                data: {
+                    "planId": viewMonthPlanId
+                },
+                dataType: "json",
+                type: "get",
+                success: function (result) {
+                    if (result.code === 200) {
+                        _this.monthPlan = result.data;
+                        $("[name=methods]").each(function () {
+                            if (_this.monthPlan.methods.indexOf($(this).val()) > -1) {
+                                $(this).prop("checked", true);
+                            }
+                        });
+                    } else {
+                        layer.alert("获取修改季度计划信息失败！");
+                    }
+                }
+            });
         }
     });
 
-    layui.use(['form', 'layer'],
+    layui.use(['form', 'layer', 'laydate'],
         function () {
             var form = layui.form,
-                layer = layui.layer;
-
-            //监听提交
-            form.on('submit(add)',
-                function (data) {
-                    data.field.quarterPlanId = sessionStorage.getItem("updateMonthPlanQuarterPlanId");
-                    var values = "";
-                    $("[name=methods]").each(function () {
-                        if ($(this).prop("checked")) {
-                            values += $(this).val() + ",";
-                        }
-
-                    });
-                    data.field.methods = values.substring(0, values.length - 1);
-
-                    //发异步，把数据提交给java
-                    $.ajax({
-                        url: "/monthPlan/addPlan",
-                        data: JSON.stringify(data.field),
-                        dataType: "json",
-                        type: "post",
-                        contentType: "application/json",
-                        success: function (result) {
-                            if (result.code === 200) {
-                                layer.msg("增加成功", {icon: 6, time: 500},
-                                    function () {
-                                        //关闭当前frame
-                                        xadmin.close();
-                                        // 可以对父窗口进行刷新
-                                        xadmin.father_reload();
-                                    });
-                            } else {
-                                layer.alert(result.msg);
-                            }
-                        }
-                    });
-
-                    return false;
-                });
+                layer = layui.layer,
+                laydate = layui.laydate;
+            form.render('checkbox');
         });
 </script>
 </body>

@@ -26,7 +26,7 @@
 </div>
 <div class="layui-fluid">
     <div class="layui-row layui-col-space15">
-        <div class="layui-col-md12" id="vmPlan">
+        <div class="layui-col-md12" id="vmYearPlan">
             <div class="layui-card">
 
                 <div class="layui-card-header">
@@ -76,7 +76,7 @@
                                 <button @click="updateQuarterPlan(yearPlan.id)"
                                         class="layui-btn layui-btn-warm"
                                         id="updateQuarterPlan"
-                                        onclick="xadmin.open('编辑季度计划','/quarterPlanManage', '','',true)">
+                                        onclick="xadmin.open('编辑季度计划','/quarterPlanManage', 1200,1000,true)">
                                     <i class="layui-icon"></i>编辑季度计划
                                 </button>
                                 <button @click="removePlan(yearPlan.id)" class="layui-btn layui-btn-danger"
@@ -120,11 +120,10 @@
 </body>
 <script type="text/javascript">
 
-    layui.use(['form'], function () {
-    });
+    layui.use(['form'], function () {});
 
     vm = new Vue({
-        el: "#vmPlan",
+        el: "#vmYearPlan",
         data: {
             pageInfo: {}
         },

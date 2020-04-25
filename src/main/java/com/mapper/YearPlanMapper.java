@@ -1,8 +1,6 @@
 package com.mapper;
 
 import com.pojo.YearPlan;
-import com.pojo.YearPlan;
-import com.vo.PlanVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;

@@ -26,11 +26,11 @@
 </div>
 <div class="layui-fluid">
     <div class="layui-row layui-col-space15">
-        <div class="layui-col-md12" id="vmPlan">
+        <div class="layui-col-md12" id="vmMonthPlan">
             <div class="layui-card">
 
                 <div class="layui-card-header">
-                    <button class="layui-btn" onclick="xadmin.open('月计划增加','/monthPlanAdd',500,400)">
+                    <button class="layui-btn" onclick="xadmin.open('月计划增加','/monthPlanAdd',1200,1000, true)">
                         <i class="layui-icon"></i>月计划增加
                     </button>
                 </div>
@@ -38,41 +38,46 @@
                     <table class="layui-table layui-form">
                         <thead>
                         <tr>
-                            <th>顺序</th>
-                            <th>公司名称</th>
-                            <th>执行时间</th>
-                            <th>联系电话</th>
-                            <th>公司地址</th>
-                            <th>审批意见</th>
+                            <th>时间</th>
+                            <th>计划目标</th>
+                            <th>拜访客户</th>
+                            <th>执行人</th>
+                            <th>执行人电话</th>
+                            <th>备注</th>
+                            <th>拜访方式</th>
                             <th>操作</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr v-for="monthPlan,i in pageInfo.list">
-                            <td v-text="monthPlan.plan.rank"></td>
-                            <td v-text="monthPlan.plan.companyName"></td>
-                            <td v-text="monthPlan.plan.execTime"></td>
-                            <td v-text="monthPlan.plan.phone"></td>
-                            <td v-text="monthPlan.plan.address"></td>
-                            <td v-if="monthPlan.plan.status==0">未审批</td>
-                            <td v-if="monthPlan.plan.status==1" style='color:green'>同意</td>
-                            <td v-if="monthPlan.plan.status==-1" style='color:red'>拒绝</td>
+                            <td v-text="monthPlan.execTime"></td>
+                            <td v-text="monthPlan.target"></td>
+                            <td v-text="monthPlan.customerList"></td>
+                            <td v-text="monthPlan.execUserId"></td>
+                            <td v-text="monthPlan.execUserPhone"></td>
+                            <td v-text="monthPlan.remark"></td>
+                            <td v-text="monthPlan.methods"></td>
                             <td class="td-manage">
-                                <button @click="updatePlan(monthPlan.plan.id, monthPlan.plan.customerId)"
+                                <button @click="updatePlan(monthPlan.id)"
                                         class="layui-btn layui-btn-warm"
-                                        id="editPlan"
-                                        onclick="xadmin.open('编辑月计划','/monthPlanUpdate',600,450)"
-                                        v-if="monthPlan.plan.status==-1">
+                                        onclick="xadmin.open('编辑月计划','/monthPlanUpdate',1200,1000, true)"
+                                >
                                     <i class="layui-icon">&#xe631;</i>编辑
                                 </button>
-                                <button @click="removePlan(monthPlan.plan.id)" class="layui-btn layui-btn-danger"
+                                <button @click="viewPlan(monthPlan.id)"
+                                        class="layui-btn"
+                                        id="viewPlan"
+                                        onclick="xadmin.open('月计划详情','/monthPlanView',600,600)">
+                                    <i class="layui-icon layui-icon-console"></i>计划详情
+                                </button>
+                                <button @click="removePlan(monthPlan.id)" class="layui-btn layui-btn-danger"
                                         id="delPlan">
                                     <i class="layui-icon">&#xe640;</i>删除
                                 </button>
                             </td>
                         </tr>
                         <tr v-if="pageInfo.total == 0">
-                            <td colspan="7" style="text-align: center">暂无月计划！</td>
+                            <td colspan="10" style="text-align: center">暂无月计划！</td>
                         </tr>
                         </tbody>
                     </table>
@@ -110,14 +115,14 @@
     });
 
     vm = new Vue({
-        el: "#vmPlan",
+        el: "#vmMonthPlan",
         data: {
             pageInfo: {}
         },
         methods: {
             getPage: function (pageNum, pageSize) {
                 var _this = this;
-                var url = "/plan/page?pageNum=" + pageNum;
+                var url = "/monthPlan/page?pageNum=" + pageNum;
 
                 if (!pageSize) {
                     url += "&pageSize=" + _this.pageInfo.pageSize;
@@ -125,8 +130,7 @@
                     url += "&pageSize=" + pageSize;
                 }
 
-                //月计划的计划类型
-                url += "&type=" + 2;
+                url += "&quarterPlanId=" + sessionStorage.getItem("updateMonthPlanQuarterPlanId");
 
                 $.getJSON(url, function (data) {
                     _this.pageInfo = data;
@@ -140,7 +144,7 @@
                     function () {
                         //发异步删除数据
                         $.ajax({
-                            url: "/plan/removePlan",
+                            url: "/monthPlan/removePlan",
                             data: {
                                 planId: id
                             },
@@ -163,10 +167,13 @@
 
                     });
             },
-            updatePlan: function (updateMonthPlanId, updateMonthPlanCustomerId) {
+            updatePlan: function (updateMonthPlanId) {
                 //把要修改的updatePlanId存到sessionStorage中
                 sessionStorage.setItem("updateMonthPlanId", updateMonthPlanId);
-                sessionStorage.setItem("updateMonthPlanCustomerId", updateMonthPlanCustomerId);
+            },
+            viewPlan: function (viewMonthPlanId) {
+                //把要修改的updatePlanId存到sessionStorage中
+                sessionStorage.setItem("viewMonthPlanId", viewMonthPlanId);
             }
         },
         created: function () {

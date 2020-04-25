@@ -2,7 +2,7 @@
 <html class="x-admin-sm" lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>年计划详情</title>
+    <title>反馈详情</title>
     <meta content="webkit" name="renderer">
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8" name="viewport"/>
@@ -14,121 +14,105 @@
     <script charset="utf-8" th:src="@{/js/vue.js}" type="text/javascript"></script>
 </head>
 <body>
-<div class="layui-fluid" id="vmUpdateYearPlan">
+<div class="layui-fluid" id="vmUpdateYearResult">
     <div class="layui-row">
         <form class="layui-form">
             <div class="layui-form-item">
-                <label class="layui-form-label" for="execTime">
-                    执行时间
+                <label class="layui-form-label" for="customerId">
+                    <span class="x-red">*</span>拜访客户
                 </label>
                 <div class="layui-input-block">
                     <div class="layui-input-inline layui-show-xs-block">
-                        <input :value="yearPlan.execTime" class="layui-input" id="execTime"
-                               name="execTime"
+                        <input :value="result.customerName" class="layui-input" id="customerId" lay-verify="required"
+                               name="sales"
                                readonly type="text">
                     </div>
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label" for="overview">
-                    计划概述
+                <label class="layui-form-label" for="sales">
+                    <span class="x-red">*</span>商品销量
                 </label>
                 <div class="layui-input-block">
                     <div class="layui-input-inline layui-show-xs-block">
-                        <input :value="yearPlan.overview" class="layui-input" id="overview"
-                               name="overview"
+                        <input :value="result.sales" class="layui-input" id="sales" lay-verify="required" name="sales"
+                               readonly
+                               type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" for="brand">
+                    <span class="x-red">*</span>主销品牌
+                </label>
+                <div class="layui-input-block">
+                    <div class="layui-input-inline layui-show-xs-block">
+                        <input :value="result.brand" class="layui-input" id="brand" lay-verify="required" name="brand"
+                               readonly
+                               type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" for="status">
+                    <span class="x-red">*</span>新品销售情况
+                </label>
+                <div class="layui-input-block">
+                    <div class="layui-input-inline layui-show-xs-block">
+                        <input :value="result.status" class="layui-input" id="status" lay-verify="required" name="status"
                                readonly type="text">
                     </div>
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label" for="situation">
-                    目前拜访概况
+                <label class="layui-form-label" for="group">
+                    <span class="x-red">*</span>消费群体
                 </label>
                 <div class="layui-input-block">
                     <div class="layui-input-inline layui-show-xs-block">
-                        <textarea class="layui-textarea" id="situation" name="situation" readonly
-                                  rows="4"
-                                  v-text="yearPlan.situation"></textarea>
+                        <input :value="result.group" class="layui-input" id="group" lay-verify="required" name="group"
+                               readonly
+                               type="text">
                     </div>
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label" for="target">
-                    计划目标
+                <label class="layui-form-label" for="earnings">
+                    <span class="x-red">*</span>盈利情况
                 </label>
                 <div class="layui-input-block">
                     <div class="layui-input-inline layui-show-xs-block">
-                        <textarea class="layui-textarea" id="target" name="target" readonly
-                                  rows="4"
-                                  v-text="yearPlan.target"></textarea>
-                    </div>
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label" for="applyUserName">
-                    申请人
-                </label>
-                <div class="layui-input-block">
-                    <div class="layui-input-inline layui-show-xs-block">
-                        <input :value="yearPlan.applyUserName" class="layui-input" id="applyUserName"
-                               name="applyUserName"
+                        <input :value="result.earnings" class="layui-input" id="earnings" lay-verify="required" name="earnings"
                                readonly type="text">
                     </div>
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label" for="firstUserName">
-                    部门经理
+                <label class="layui-form-label" for="range">
+                    <span class="x-red">*</span>购买金额区间
                 </label>
                 <div class="layui-input-block">
                     <div class="layui-input-inline layui-show-xs-block">
-                        <input :value="yearPlan.firstUserName" class="layui-input" id="firstUserName"
-                               name="firstUserName"
+                        <input :value="result.range" class="layui-input" id="range" lay-verify="required" name="range"
+                               readonly
+                               type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" for="problem">
+                    <span class="x-red">*</span>客户存在问题
+                </label>
+                <div class="layui-input-block">
+                    <div class="layui-input-inline layui-show-xs-block">
+                        <input :value="result.problem" class="layui-input" id="problem" lay-verify="required" name="problem"
                                readonly type="text">
                     </div>
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label" for="firstIdea">
-                    审批意见
-                </label>
-                <div class="layui-input-block">
-                    <div class="layui-input-inline layui-show-xs-block">
-                        <textarea class="layui-textarea" id="firstIdea" name="firstIdea" readonly
-                                  rows="4"
-                                  v-text="yearPlan.firstIdea"></textarea>
-                    </div>
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label" for="secondUserName">
-                    审批人
-                </label>
-                <div class="layui-input-block">
-                    <div class="layui-input-inline layui-show-xs-block">
-                        <input :value="yearPlan.secondUserName" class="layui-input" id="secondUserName"
-
-                               name="secondUserName"
-                               readonly type="text">
-                    </div>
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label" for="secondIdea">
-                    审批意见
-                </label>
-                <div class="layui-input-block">
-                    <div class="layui-input-inline layui-show-xs-block">
-                        <textarea class="layui-textarea" id="secondIdea" name="secondIdea" readonly
-                                  rows="4"
-                                  v-text="yearPlan.secondIdea"></textarea>
-                    </div>
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label" for="secondUserName"></label>
-                <button class="layui-btn"  onclick="xadmin.close();"  style="width: 100px;">
+                <label class="layui-form-label" for="problem"></label>
+                <button class="layui-btn" onclick="xadmin.close();" style="width: 100px;">
                     返回
                 </button>
             </div>
@@ -137,25 +121,25 @@
 </div>
 <script charset="UTF-8" type="text/javascript">
 
-    var viewYearPlanId = sessionStorage.getItem("viewYearPlanId");
+    var viewResultId = sessionStorage.getItem("viewResultId");
 
     vm = new Vue({
-        el: "#vmUpdateYearPlan",
+        el: "#vmUpdateYearResult",
         data: {
-            yearPlan: {}
+            result: {}
         },
         created: function () {
             var _this = this;
             $.ajax({
-                url: "/yearPlan/getPlan",
+                url: "/result/getResult",
                 data: {
-                    "planId": viewYearPlanId
+                    "resultId": viewResultId
                 },
                 dataType: "json",
                 type: "get",
                 success: function (result) {
                     if (result.code === 200) {
-                        _this.yearPlan = result.data;
+                        _this.result = result.data;
                     } else {
                         layer.alert("获取修改年计划信息失败！");
                     }
@@ -169,7 +153,6 @@
             var form = layui.form,
                 layer = layui.layer,
                 laydate = layui.laydate;
-
         });
 </script>
 </body>

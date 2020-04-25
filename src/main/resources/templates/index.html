@@ -57,7 +57,7 @@
                     </li>
                 </ul>
             </li>
-            <li th:if="${auths != null and #strings.contains(auths,'客户拜访计划定制')}">
+            <li th:if="${auths != null and (#strings.contains(auths,'年计划页') or #strings.contains(auths,'客户拜访计划执行'))}">
                 <a href="javascript:">
                     <i class="iconfont left-nav-li" lay-tips="客户拜访计划定制">&#xe726;</i>
                     <cite>客户拜访计划定制</cite>
@@ -68,7 +68,7 @@
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>年计划定制</cite></a>
                     </li>
-                    <li>
+                    <li th:if="${auths != null and #strings.contains(auths,'客户拜访计划执行')}">
                         <a onclick="xadmin.add_tab('拜访计划模板','/planTemplateManage')">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>拜访计划模板</cite></a>
@@ -82,7 +82,7 @@
                     <i class="iconfont nav_right"></i></a>
                 <ul class="sub-menu" style="display: block;">
                     <li>
-                        <a onclick="xadmin.add_tab('客户经理拜访情况统计','/planApproval')">
+                        <a onclick="xadmin.add_tab('客户经理拜访情况统计','/userResult')">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>客户经理拜访情况统计</cite></a>
                     </li>
@@ -105,7 +105,7 @@
                     <i class="iconfont nav_right"></i></a>
                 <ul class="sub-menu" style="display: block;">
                     <li>
-                        <a onclick="xadmin.add_tab('拜访结果记录','/resultAdd')">
+                        <a onclick="xadmin.add_tab('拜访结果记录','/resultManage')">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>拜访结果记录</cite></a>
                     </li>

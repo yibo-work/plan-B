@@ -2,7 +2,7 @@
 <html class="x-admin-sm" lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>用户管理</title>
+    <title>拜访结果记录</title>
     <meta content="webkit" name="renderer">
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8" name="viewport"/>
@@ -26,42 +26,48 @@
 </div>
 <div class="layui-fluid">
     <div class="layui-row layui-col-space15">
-        <div class="layui-col-md12" id="vmUser">
+        <div class="layui-col-md12" id="vmResult">
             <div class="layui-card">
 
-                <div class="layui-card-header">
-                    <button class="layui-btn" onclick="xadmin.open('增加用户','/userAdd',500,400)">
-                        <i class="layui-icon"></i>增加用户
-                    </button>
-                </div>
                 <div class="layui-card-body">
                     <table class="layui-table layui-form">
                         <thead>
                         <tr>
-                            <th>用户名</th>
-                            <th>角色</th>
+                            <th>序号</th>
+                            <th>月份时间</th>
+                            <th>客户名称</th>
+                            <th>负责人</th>
                             <th>联系电话</th>
+                            <th>客户地址</th>
+                            <th>客户经理</th>
+                            <th>是否反馈</th>
                             <th>操作</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr v-for="user,i in pageInfo.list">
-                            <td v-text="user.name"></td>
-                            <td v-text="user.roleName"></td>
-                            <td v-text="user.phone"></td>
+                        <tr v-for="result,i in pageInfo.list">
+                            <td v-text="i+1"></td>
+                            <td v-text="result.execTime"></td>
+                            <td v-text="result.companyName"></td>
+                            <td v-text="result.man"></td>
+                            <td v-text="result.phone"></td>
+                            <td v-text="result.address"></td>
+                            <td v-text="result.name"></td>
+                            <td v-if="result.resultId">是</td>
+                            <td v-else>否</td>
                             <td class="td-manage">
-                                <button @click="updateUser(user.id, user.roleId)" class="layui-btn layui-btn-warm"
-                                        id="editUser" onclick="xadmin.open('编辑用户','/userUpdate',600,450)">
-                                    <i class="layui-icon">&#xe631;</i>编辑
+                                <button @click="addResult(result.id,result.customerId, result.companyName, result.resultId)"
+                                        class="layui-btn ">
+                                    <i class="layui-icon"></i>添加拜访结果记录
                                 </button>
-                                <button @click="removeUser(user.id)" class="layui-btn layui-btn-danger"
-                                        id="delUser">
-                                    <i class="layui-icon">&#xe640;</i>删除
+                                <button @click="viewResult(result.resultId)"
+                                        class="layui-btn layui-btn-primary">
+                                    <i class="layui-icon layui-icon-console"></i>反馈详情
                                 </button>
                             </td>
                         </tr>
                         <tr v-if="pageInfo.total == 0">
-                            <td colspan="6" style="text-align: center">暂无用户信息！</td>
+                            <td colspan="7" style="text-align: center">暂无季度计划！</td>
                         </tr>
                         </tbody>
                     </table>
@@ -99,14 +105,14 @@
     });
 
     vm = new Vue({
-        el: "#vmUser",
+        el: "#vmResult",
         data: {
             pageInfo: {}
         },
         methods: {
             getPage: function (pageNum, pageSize) {
                 var _this = this;
-                var url = "/user/page?pageNum=" + pageNum;
+                var url = "/result/resultPage?pageNum=" + pageNum;
 
                 if (!pageSize) {
                     url += "&pageSize=" + _this.pageInfo.pageSize;
@@ -118,41 +124,25 @@
                     _this.pageInfo = data;
                 });
             },
-            /**
-             * 删除用户
-             */
-            removeUser: function (id) {
-                layer.confirm('确认要删除吗？',
-                    function () {
-                        //发异步删除数据
-                        $.ajax({
-                            url: "/user/removeUser",
-                            data: {
-                                userId: id
-                            },
-                            dataType: "json",
-                            type: "delete",
-                            success: function (result) {
-                                if (result.code === 200) {
-                                    layer.msg('删除成功', {
-                                        icon: 1,
-                                        time: 1000
-                                    });
-                                    setTimeout(function () {
-                                        window.location.reload();
-                                    }, 1000);
-                                } else {
-                                    layer.alert(result.msg, {icon: 5});
-                                }
-                            }
-                        });
+            addResult: function (resultAddMonthId, resultAddCustomerId, resultAddCustomerName, addResultId) {
 
-                    });
+                if (addResultId) {
+                    layer.alert("已经添加了反馈记录！");
+                } else {
+                    xadmin.open('添加拜访结果记录', '/resultAdd', 500, 600);
+                }
+
+                sessionStorage.setItem("resultAddMonthId", resultAddMonthId);
+                sessionStorage.setItem("resultAddCustomerId", resultAddCustomerId);
+                sessionStorage.setItem("resultAddCustomerName", resultAddCustomerName);
             },
-            updateUser: function (updateUserId, updateUserRoleId) {
-                //把要修改的updateUserId存到sessionStorage中
-                sessionStorage.setItem("updateUserId", updateUserId);
-                sessionStorage.setItem("updateUserRoleId", updateUserRoleId);
+            viewResult: function (viewResultId) {
+                if (viewResultId) {
+                    xadmin.open('反馈详情', '/resultView', 500, 600)
+                } else {
+                    layer.alert("暂无反馈详情！");
+                }
+                sessionStorage.setItem("viewResultId", viewResultId);
             }
         },
         created: function () {

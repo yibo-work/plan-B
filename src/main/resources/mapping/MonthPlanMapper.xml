@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.MonthPlanMapper">
+
+    <select id="queryPlanList" resultType="com.pojo.MonthPlan">
+        select month.id,
+               exec_time,
+               target,
+               customer_ids,
+               customer_list,
+               exec_user_id,
+               user.phone as exec_user_phone,
+               remark,
+               methods,
+               quarter_plan_id
+        from month_plan month
+                 left join user ON user.id = exec_user_id
+        where quarter_plan_id = #{quarterPlanId}
+    </select>
+
+    <!--新增月计划-->
+    <insert id="addPlan">
+        insert into month_plan (exec_time,
+                                target,
+                                customer_ids,
+                                customer_list,
+                                exec_user_id,
+                                remark,
+                                methods,
+                                quarter_plan_id)
+        VALUES ( #{plan.execTime,jdbcType=VARCHAR}
+               , #{plan.target,jdbcType=VARCHAR}
+               , #{plan.customerIds,jdbcType=VARCHAR}
+               , #{plan.customerList,jdbcType=VARCHAR}
+               , #{plan.execUserId,jdbcType=VARCHAR}
+               , #{plan.remark,jdbcType=VARCHAR}
+               , #{plan.methods,jdbcType=VARCHAR}
+               , #{plan.quarterPlanId,jdbcType=INTEGER});
+    </insert>
+
+    <!--查询单个月计划-->
+    <select id="getPlanById" resultType="com.pojo.MonthPlan">
+        select month.id,
+               exec_time,
+               target,
+               customer_ids,
+               customer_list,
+               exec_user_id,
+               user.phone as exec_user_phone,
+               remark,
+               methods,
+               quarter_plan_id
+        from month_plan month
+                 left join user ON user.id = exec_user_id
+        where month.id = #{id}
+    </select>
+
+
+    <!--修改计划-->
+    <update id="updatePlan">
+        update month_plan
+        <trim prefix="set" suffixOverrides="," suffix=" where id = #{plan.id,jdbcType=INTEGER}">
+            <if test="plan.execTime != null and plan.execTime !=''">
+                exec_time=#{plan.execTime,jdbcType=VARCHAR},
+            </if>
+            <if test="plan.target != null and plan.target !=''">
+                target=#{plan.target,jdbcType=VARCHAR},
+            </if>
+            <if test="plan.customerIds != null and plan.customerIds !=''">
+                customer_ids=#{plan.customerIds,jdbcType=VARCHAR},
+            </if>
+            <if test="plan.customerList != null and plan.customerList !=''">
+                customer_list=#{plan.customerList,jdbcType=VARCHAR},
+            </if>
+            <if test="plan.execUserId != null and plan.execUserId !=''">
+                exec_user_id=#{plan.execUserId,jdbcType=INTEGER},
+            </if>
+            <if test="plan.remark != null and plan.remark !=''">
+                remark=#{plan.remark,jdbcType=VARCHAR},
+            </if>
+            <if test="plan.methods != null and plan.methods !=''">
+                methods=#{plan.methods,jdbcType=VARCHAR},
+            </if>
+            <if test="plan.quarterPlanId != null and plan.quarterPlanId !=''">
+                `quarter_plan_id`=#{plan.quarterPlanId,jdbcType=INTEGER},
+            </if>
+        </trim>
+        ;
+    </update>
+
+    <!--删除计划-->
+    <delete id="removePlanById">
+        delete
+        from month_plan
+        where id = #{id}
+    </delete>
+
+
+</mapper>

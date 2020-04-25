@@ -16,51 +16,85 @@
 <body>
 <div class="layui-fluid" id="vmUpdateMonthPlan">
     <div class="layui-row">
-        <form class="layui-form">
-            <div class="layui-form-item">
-                <label class="layui-form-label" for="customerList">
-                    <span class="x-red">*</span>客户公司
-                </label>
-                <div class="layui-input-block">
-                    <div class="layui-input-inline layui-show-xs-block">
-                        <select id="customerList" lay-filter='selectCustomer' name="customerId">
-                            <option :value="customer.id" v-for="customer,index in customerList">{{customer.companyName}}</option>
-                        </select>
-                        <input class="layui-input" id="companyName" name="companyName"
-                               type="hidden" :value="monthPlan.plan.companyName">
-                    </div>
-                </div>
-            </div>
+        <form class="layui-form" onsubmit="return false;">
             <div class="layui-form-item">
                 <label class="layui-form-label" for="execTime">
                     <span class="x-red">*</span>执行时间
                 </label>
                 <div class="layui-input-block">
                     <div class="layui-input-inline layui-show-xs-block">
-                        <input class="layui-input" id="execTime" lay-verify="required" name="execTime" type="text"
-                               :value="monthPlan.plan.execTime">
+                        <input class="layui-input" id="execTime" lay-verify="required" name="execTime"
+                               type="text" v-model="monthPlan.execTime">
                     </div>
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label" for="phone">
-                    <span class="x-red">*</span>电话
+                <label class="layui-form-label" for="target">
+                    <span class="x-red">*</span>计划目标
                 </label>
                 <div class="layui-input-block">
                     <div class="layui-input-inline layui-show-xs-block">
-                        <input class="layui-input" id="phone" lay-verify="required" name="phone" type="text"
-                               :value="monthPlan.plan.phone">
+                        <input class="layui-input" id="target" lay-verify="required" name="target"
+                               type="text" v-model="monthPlan.target">
                     </div>
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label" for="address">
-                    <span class="x-red">*</span>地址
+                <label class="layui-form-label" for="customerList">
+                    <span class="x-red">*</span>拜访客户
                 </label>
                 <div class="layui-input-block">
                     <div class="layui-input-inline layui-show-xs-block">
-                        <input class="layui-input" id="address" lay-verify="required" name="address" type="text"
-                               :value="monthPlan.plan.address">
+                        <input :value="monthPlan.customerList" class="layui-input" id="customerList" lay-verify="required"
+                               name="customerList" readonly type="text">
+                        <input class="layui-input" id="customerIds" lay-verify="required"
+                               name="customerIds" type="hidden">
+                    </div>
+                    <div class="layui-input-inline layui-show-xs-block">
+                        <button class="layui-btn" onclick="xadmin.open('客户列表','/customerList', 700, 600)"
+                                style="width: 100px;">
+                            选择客户
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" for="remark">
+                    <span class="x-red">*</span>备注
+                </label>
+                <div class="layui-input-block">
+                    <div class="layui-input-inline layui-show-xs-block">
+                        <input class="layui-input" id="remark" lay-verify="required" name="remark"
+                               type="text" v-model="monthPlan.remark">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" for="execUserId">
+                    <span class="x-red">*</span>执行人
+                </label>
+                <div class="layui-input-block">
+                    <div class="layui-input-inline layui-show-xs-block">
+                        <select id="execUserId" name="execUserId" v-model="monthPlan.execUserId">
+                            <option :value="user.id" v-for="user,index in userList">{{user.name}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" for="methods">
+                    <span class="x-red">*</span>拜访方式
+                </label>
+                <div class="layui-input-block">
+                    <div class="layui-input-inline layui-show-xs-block">
+                        <div class="layui-input-inline">
+                            <input id="methods" lay-skin="primary" name="methods" title="电话拜访"
+                                   type="checkbox"
+                                   value="电话拜访"/>
+                            <input lay-skin="primary" name="methods" title="实地拜访"
+                                   type="checkbox"
+                                   value="实地拜访"/>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -76,18 +110,29 @@
 <script charset="UTF-8" type="text/javascript">
 
     var updateMonthPlanId = sessionStorage.getItem("updateMonthPlanId");
-    var updateMonthPlanCustomerId = sessionStorage.getItem("updateMonthPlanCustomerId");
 
     vm = new Vue({
         el: "#vmUpdateMonthPlan",
         data: {
-            monthPlan: {},
-            customerList: []
+            userList: [],
+            monthPlan: {}
         },
         created: function () {
             var _this = this;
             $.ajax({
-                url: "/plan/getPlan",
+                url: "/user/getUserList",
+                dataType: "json",
+                type: "get",
+                success: function (result) {
+                    if (result.code === 200) {
+                        _this.userList = result.data;
+                    } else {
+                        layer.alert("获取所有执行人信息失败！");
+                    }
+                }
+            });
+            $.ajax({
+                url: "/monthPlan/getPlan",
                 data: {
                     "planId": updateMonthPlanId
                 },
@@ -96,34 +141,25 @@
                 success: function (result) {
                     if (result.code === 200) {
                         _this.monthPlan = result.data;
+                        $("[name=methods]").each(function () {
+                            if (_this.monthPlan.methods.indexOf($(this).val()) > -1) {
+                                $(this).prop("checked", true);
+                            }
+                        });
                     } else {
-                        layer.alert("获取修改月计划信息失败！");
+                        layer.alert("获取修改季度计划信息失败！");
                     }
                 }
             });
-            $.ajax({
-                url: "/customer/getAllCustomer",
-                dataType: "json",
-                type: "get",
-                success: function (result) {
-                    if (result.code === 200) {
-                        _this.customerList = result.data;
-                    } else {
-                        layer.alert("获取所有客户信息失败！");
-                    }
-                }
-            });
-
         }
     });
+
     layui.use(['form', 'layer', 'laydate'],
         function () {
             var form = layui.form,
                 layer = layui.layer,
                 laydate = layui.laydate;
 
-    $("[name=customerId]").val(updateMonthPlanCustomerId);
-    layui.form.render('select');
             //监听提交
             form.on('submit(update)',
                 function (data) {
@@ -131,15 +167,17 @@
 
                     //组装数据
                     monthPlan.id = updateMonthPlanId;
-                    monthPlan.customerId = data.field.customerId;
-                    monthPlan.companyName = data.field.companyName;
                     monthPlan.execTime = data.field.execTime;
-                    monthPlan.phone = data.field.phone;
-                    monthPlan.address = data.field.address;
+                    monthPlan.target = data.field.target;
+                    monthPlan.customerIds = data.field.customerIds;
+                    monthPlan.customerList = data.field.customerList;
+                    monthPlan.execUserId = data.field.execUserId;
+                    monthPlan.remark = data.field.remark;
+                    monthPlan.methods = data.field.methods;
 
                     //发异步，把数据提交给controller
                     $.ajax({
-                        url: "plan/updatePlan",
+                        url: "monthPlan/updatePlan",
                         data: JSON.stringify(monthPlan),
                         dataType: "json",
                         contentType: "application/json",
@@ -161,30 +199,6 @@
 
                     return false;
                 });
-
-            form.on('select(selectCustomer)', function (data) {
-                var customerId = data.value;
-                $.ajax({
-                    url: "/customer/getCustomer",
-                    data: {
-                        "customerId": customerId
-                    },
-                    dataType: "json",
-                    type: "get",
-                    success: function (result) {
-                        if (result.code === 200) {
-                            var customer = result.data;
-                            //赋值
-                            $("[name=phone]").val(customer.phone);
-                            $("[name=address]").val(customer.address);
-                            $("[name=companyName]").val(customer.companyName);
-                        } else {
-                            layer.alert("获取修改客户信息失败！");
-                        }
-                    }
-                });
-            })
-
         });
 </script>
 </body>

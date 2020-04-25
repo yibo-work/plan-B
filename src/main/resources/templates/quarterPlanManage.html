@@ -26,11 +26,11 @@
 </div>
 <div class="layui-fluid">
     <div class="layui-row layui-col-space15">
-        <div class="layui-col-md12" id="vmPlan">
+        <div class="layui-col-md12" id="vmQuarterPlan">
             <div class="layui-card">
 
                 <div class="layui-card-header">
-                    <button class="layui-btn" onclick="xadmin.open('季度计划增加','/quarterPlanAdd',500,400)">
+                    <button class="layui-btn" onclick="xadmin.open('季度计划增加','/quarterPlanAdd',700,600)">
                         <i class="layui-icon"></i>季度计划增加
                     </button>
                 </div>
@@ -38,34 +38,37 @@
                     <table class="layui-table layui-form">
                         <thead>
                         <tr>
-                            <th>顺序</th>
-                            <th>公司名称</th>
-                            <th>执行时间</th>
-                            <th>联系电话</th>
-                            <th>公司地址</th>
-                            <th>审批意见</th>
+                            <th>序号</th>
+                            <th>时间</th>
+                            <th>计划概述</th>
                             <th>操作</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr v-for="quarterPlan,i in pageInfo.list">
-                            <td v-text="quarterPlan.plan.rank"></td>
-                            <td v-text="quarterPlan.plan.companyName"></td>
-                            <td v-text="quarterPlan.plan.execTime"></td>
-                            <td v-text="quarterPlan.plan.phone"></td>
-                            <td v-text="quarterPlan.plan.address"></td>
-                            <td v-if="quarterPlan.plan.status==0">未审批</td>
-                            <td v-if="quarterPlan.plan.status==1" style='color:green'>同意</td>
-                            <td v-if="quarterPlan.plan.status==-1" style='color:red'>拒绝</td>
+                            <td v-text="i+1"></td>
+                            <td v-text="quarterPlan.execTime"></td>
+                            <td v-text="quarterPlan.overview"></td>
                             <td class="td-manage">
-                                <button @click="updatePlan(quarterPlan.plan.id, quarterPlan.plan.customerId)"
+                                <button @click="updatePlan(quarterPlan.id)"
                                         class="layui-btn layui-btn-warm"
                                         id="editPlan"
-                                        onclick="xadmin.open('编辑季度计划','/quarterPlanUpdate',600,450)"
-                                        v-if="quarterPlan.plan.status==-1">
+                                        onclick="xadmin.open('编辑季度计划','/quarterPlanUpdate',700,600)">
                                     <i class="layui-icon">&#xe631;</i>编辑
                                 </button>
-                                <button @click="removePlan(quarterPlan.plan.id)" class="layui-btn layui-btn-danger"
+                                <button @click="viewPlan(quarterPlan.id)"
+                                        class="layui-btn"
+                                        id="viewPlan"
+                                        onclick="xadmin.open('季度计划详情','/quarterPlanView',700,900)">
+                                    <i class="layui-icon layui-icon-console"></i>计划详情
+                                </button>
+                                <button @click="updateMonthPlan(quarterPlan.id)"
+                                        class="layui-btn layui-btn-warm"
+                                        id="updateMonthPlan"
+                                        onclick="xadmin.open('编辑月计划','/monthPlanManage', 1200,1000,true)">
+                                    <i class="layui-icon"></i>编辑月计划
+                                </button>
+                                <button @click="removePlan(quarterPlan.id)" class="layui-btn layui-btn-danger"
                                         id="delPlan">
                                     <i class="layui-icon">&#xe640;</i>删除
                                 </button>
@@ -106,18 +109,20 @@
 </body>
 <script type="text/javascript">
 
+    var updateQuarterPlanYearPlanId = sessionStorage.getItem("updateQuarterPlanYearPlanId");
+
     layui.use(['form'], function () {
     });
 
     vm = new Vue({
-        el: "#vmPlan",
+        el: "#vmQuarterPlan",
         data: {
             pageInfo: {}
         },
         methods: {
             getPage: function (pageNum, pageSize) {
                 var _this = this;
-                var url = "/plan/page?pageNum=" + pageNum;
+                var url = "/quarterPlan/page?pageNum=" + pageNum;
 
                 if (!pageSize) {
                     url += "&pageSize=" + _this.pageInfo.pageSize;
@@ -125,8 +130,7 @@
                     url += "&pageSize=" + pageSize;
                 }
 
-                //季度计划的计划类型
-                url += "&type=" + 3;
+                url += "&yearPlanId=" + updateQuarterPlanYearPlanId;
 
                 $.getJSON(url, function (data) {
                     _this.pageInfo = data;
@@ -140,7 +144,7 @@
                     function () {
                         //发异步删除数据
                         $.ajax({
-                            url: "/plan/removePlan",
+                            url: "/quarterPlan/removePlan",
                             data: {
                                 planId: id
                             },
@@ -163,10 +167,17 @@
 
                     });
             },
-            updatePlan: function (updateQuarterPlanId, updateQuarterPlanCustomerId) {
+            updatePlan: function (updateQuarterPlanId) {
                 //把要修改的updatePlanId存到sessionStorage中
                 sessionStorage.setItem("updateQuarterPlanId", updateQuarterPlanId);
-                sessionStorage.setItem("updateQuarterPlanCustomerId", updateQuarterPlanCustomerId);
+            },
+            viewPlan: function (viewQuarterPlanId) {
+                //把要修改的updatePlanId存到sessionStorage中
+                sessionStorage.setItem("viewQuarterPlanId", viewQuarterPlanId);
+            },
+            updateMonthPlan: function (updateMonthPlanQuarterPlanId) {
+                //把要修改的updatePlanId存到sessionStorage中
+                sessionStorage.setItem("updateMonthPlanQuarterPlanId", updateMonthPlanQuarterPlanId);
             }
         },
         created: function () {

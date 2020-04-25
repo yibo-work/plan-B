@@ -18,4 +18,5 @@ public class Customer implements Serializable {
     private String phone;
     private String address;
     private Integer planFlag;
+    private Integer resultCount;
 }

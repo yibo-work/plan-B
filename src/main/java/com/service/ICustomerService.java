@@ -8,11 +8,11 @@ import java.util.List;
 
 public interface ICustomerService {
 
-    PageInfo<Customer> queryCustomerList(Integer pageNum, Integer pageSize, Integer planFlag);
+    List<Customer> queryCustomerList();
 
     int addCustomer(Customer classroom);
 
-    PageInfo<Customer> queryCustomerListByResult(Integer pageNum, Integer pageSize,String result);
+    PageInfo<Customer> queryCustomerListByResult(Integer pageNum, Integer pageSize,String result,String companyName);
 
     List<Customer> getAllCustomer();
 

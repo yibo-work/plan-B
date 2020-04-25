@@ -2,11 +2,11 @@ package com.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.mapper.QuarterPlanMapper;
 import com.mapper.UserMapper;
-import com.mapper.YearPlanMapper;
+import com.pojo.QuarterPlan;
 import com.pojo.User;
-import com.pojo.YearPlan;
-import com.service.IYearPlanService;
+import com.service.IQuarterPlanService;
 import com.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,36 +14,32 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpSession;
 
 @Service
-public class YearPlanServiceImpl implements IYearPlanService {
+public class QuarterPlanServiceImpl implements IQuarterPlanService {
 
     @Autowired
 
-    private YearPlanMapper yearPlanMapper;
+    private QuarterPlanMapper yearPlanMapper;
     @Autowired
     private UserMapper userMapper;
 
     @Override
-    public PageInfo<YearPlan> queryPlanList(Integer pageNum, Integer pageSize) {
+    public PageInfo<QuarterPlan> queryPlanList(Integer pageNum, Integer pageSize, Integer yearPlanId) {
         PageHelper.startPage(pageNum, pageSize);
-        return new PageInfo<>(yearPlanMapper.queryPlanList());
+        return new PageInfo<>(yearPlanMapper.queryPlanList(yearPlanId));
     }
 
     @Override
-    public int addPlan(YearPlan plan, HttpSession session) {
-        UserVO userVO = (UserVO) session.getAttribute("USER");
-        User userByRoleId = userMapper.getUserByRoleId(4);
-        plan.setApplyUserId(userVO.getUser().getId());
-        plan.setFirstUserId(userByRoleId.getId());
+    public int addPlan(QuarterPlan plan) {
         return yearPlanMapper.addPlan(plan);
     }
 
     @Override
-    public YearPlan getPlanById(Integer id) {
+    public QuarterPlan getPlanById(Integer id) {
         return yearPlanMapper.getPlanById(id);
     }
 
     @Override
-    public int updatePlan(YearPlan plan) {
+    public int updatePlan(QuarterPlan plan) {
         return yearPlanMapper.updatePlan(plan);
     }
 

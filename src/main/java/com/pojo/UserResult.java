@@ -6,10 +6,10 @@ import java.io.Serializable;
 
 /**
  * @author Clrvn
- * 用户
+ * 客户经理拜访情况
  */
 @Data
-public class User implements Serializable {
+public class UserResult implements Serializable {
 
     private static final long serialVersionUID = 4L;
 
@@ -17,15 +17,11 @@ public class User implements Serializable {
 
     private String name;
 
-    private String password;
+    private Integer shouldCount;
 
-    private String phone;
+    private Integer realCount;
 
-    private Integer roleId;
-
-    private String roleName;
-
-    public User() {
+    public UserResult() {
         super();
     }
 

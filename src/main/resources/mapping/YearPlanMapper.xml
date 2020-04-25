@@ -5,65 +5,6 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mapper.YearPlanMapper">
 
-    <!--查询所有planVOMap-->
-    <resultMap id="PlanVOMap" type="com.vo.PlanVO">
-        <association property="plan" javaType="com.pojo.Plan">
-            <id column="planId" property="id"/>
-            <result property="companyName" column="planCompanyName"/>
-            <result property="execTime" column="exec_time"/>
-            <result property="phone" column="planPhone"/>
-            <result property="address" column="planAddress"/>
-            <result property="type" column="type"/>
-            <result property="rank" column="rank"/>
-            <result property="status" column="status"/>
-            <result property="customerId" column="customer_id"/>
-            <result property="userId" column="user_id"/>
-        </association>
-        <association property="customer" javaType="com.pojo.Customer">
-            <id column="customerId" property="id"/>
-            <result property="companyName" column="customerCompanyName"/>
-            <result property="man" column="man"/>
-            <result property="phone" column="customerPhone"/>
-            <result property="address" column="customerAddress"/>
-            <result property="planFlag" column="plan_flag"/>
-        </association>
-        <association property="user" javaType="com.pojo.User">
-            <id column="userId" property="id"/>
-            <result property="name" column="name"/>
-            <result property="password" column="password"/>
-            <result property="phone" column="userPhone"/>
-            <result property="roleId" column="role_id"/>
-        </association>
-    </resultMap>
-
-
-    <!--查询计划-->
-    <!--    <select id="queryPlanList" resultMap="PlanVOMap">-->
-    <!--        select a.id as planId, a.company_name as planCompanyName, exec_time , a.phone as planPhone, a.address as-->
-    <!--        planAddress, type, `rank`, status, customer_id, user_id,-->
-    <!--        s.id as customerId, s.company_name as customerCompanyName, man, s.phone as customerPhone, s.address as-->
-    <!--        customerAddress, plan_flag,-->
-    <!--        d.id, name, password, d.phone as userPhone, role_id-->
-    <!--        from year_plan as a-->
-    <!--        inner join `customer` s ON a.customer_id = s.id-->
-    <!--        left join `user` d ON a.user_id = d.id-->
-    <!--        <where>-->
-    <!--            <if test="type != null and type != ''">-->
-    <!--                and type = #{type, jdbcType=INTEGER}-->
-    <!--            </if>-->
-    <!--            <if test="status != null">-->
-    <!--                and `status` = #{status}-->
-    <!--            </if>-->
-    <!--            <if test="companyName != null and companyName != ''">-->
-    <!--                and a.company_name like concat('%', #{companyName, jdbcType=VARCHAR},'%')-->
-    <!--            </if>-->
-    <!--            <if test="execTime != null and execTime != ''">-->
-    <!--                and exec_time like concat('%', #{execTime, jdbcType=VARCHAR},'%')-->
-    <!--            </if>-->
-    <!--        </where>-->
-    <!--        order by `rank`-->
-    <!--    </select>-->
-
     <select id="queryPlanList" resultType="com.pojo.YearPlan">
         select yp.id,
                exec_time,

@@ -7,7 +7,8 @@
 
     <!--新增拜访结果-->
     <insert id="addResult">
-        insert into result(sales, brand, status, `group`, earnings, `range`, problem, customer_id)
+        insert into result(sales, brand, status, `group`, earnings, `range`, problem, customer_id, exec_user_id,
+                           month_id)
         values ( #{result.sales,jdbcType=VARCHAR}
                , #{result.brand,jdbcType=VARCHAR}
                , #{result.status,jdbcType=VARCHAR}
@@ -15,7 +16,54 @@
                , #{result.earnings,jdbcType=VARCHAR}
                , #{result.range,jdbcType=VARCHAR}
                , #{result.problem,jdbcType=VARCHAR}
-               , #{result.customerId,jdbcType=VARCHAR});
+               , #{result.customerId,jdbcType=INTEGER}
+               , #{result.execUserId,jdbcType=INTEGER}, #{result.monthId,jdbcType=INTEGER});
     </insert>
+    <select id="queryResultList" resultType="com.pojo.UserResult">
+        select id, name, (SELECT count(0) from month_plan month where month.exec_user_id = user.id ) as should_count,
+        (SELECT count(0) from result rs where rs.exec_user_id = user.id ) as real_count
+        from user
+        where role_id = 1
+        <if test="name != null and name !=''">
+            and `name` like concat('%', #{name},'%')
+        </if>
+    </select>
+
+    <select id="queryResultPage" resultType="com.pojo.Result">
+        select a.id    as id,
+               a.exec_time,
+               s.id    as customer_id,
+               s.company_name,
+               man,
+               s.phone as `phone`,
+               address,
+               a.exec_user_id,
+               name,
+               password,
+               u.phone as user_phone,
+               r.id    as result_id
+        from month_plan a
+                 left join customer s ON position(concat(s.id) in a.customer_ids) != 0
+                 left join user u on a.exec_user_id = u.id
+                 left join result r on a.id = r.month_id and customer_id = s.id
+    </select>
+
+    <select id="getResultById" resultType="com.pojo.Result">
+        select a.id,
+               sales,
+               brand,
+               status,
+               `group`,
+               earnings,
+               `range`,
+               problem,
+               customer_id,
+               c.company_name as customer_name,
+               exec_user_id,
+               month_id
+        from result a
+                 left join customer c on a.customer_id = c.id
+        where a.id = #{resultId,jdbcType=INTEGER}
+    </select>
 
 </mapper>

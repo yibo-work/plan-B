@@ -8,6 +8,8 @@ import com.vo.ResultVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/customer")
 public class CustomerController {
@@ -15,14 +17,18 @@ public class CustomerController {
     @Autowired
     private ICustomerService customerService;
 
-    /*@GetMapping("/page")
-    public PageInfo<Customer> queryAllCustomer(@RequestParam("pageNum") Integer pageNum, @RequestParam("pageSize") Integer pageSize, @RequestParam(required = false, name = "planFlag") Integer planFlag) {
-        return customerService.queryCustomerList(pageNum, pageSize, planFlag);
-    }*/
+    @GetMapping("/list")
+    public ResultVO queryAllCustomer() {
+        return ResultVOUtil.success(customerService.queryCustomerList());
+    }
 
     @GetMapping("/page")
-    public PageInfo<Customer> queryAllCustomer(@RequestParam("pageNum") Integer pageNum, @RequestParam("pageSize") Integer pageSize, @RequestParam(required = false, name = "result") String result) {
-        return customerService.queryCustomerListByResult(pageNum, pageSize, result);
+    public PageInfo<Customer> queryAllCustomer(@RequestParam("pageNum") Integer pageNum
+            , @RequestParam("pageSize") Integer pageSize
+            , @RequestParam(required = false, name = "result") String result
+            , @RequestParam(required = false, name = "companyName") String companyName
+    ) {
+        return customerService.queryCustomerListByResult(pageNum, pageSize, result, companyName);
     }
 
     @DeleteMapping("/removeCustomer")

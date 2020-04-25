@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface CustomerMapper {
 
-    List<Customer> queryCustomerList(Integer planFlag);
+    List<Customer> queryCustomerList();
 
     int addCustomer(@Param("customer") Customer customer);
 
@@ -24,5 +24,5 @@ public interface CustomerMapper {
     /**
      * 查询客户是否存被拜访
      */
-    List<Customer> queryCustomerListByResult(@Param("result") String result);
+    List<Customer> queryCustomerListByResult(@Param("result") String result, @Param("companyName") String companyName);
 }

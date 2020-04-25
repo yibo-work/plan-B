@@ -1,6 +1,5 @@
 package com.controller;
 
-import com.enums.PlanTypeEnum;
 import com.pojo.Role;
 import com.pojo.User;
 import com.vo.UserVO;
@@ -43,21 +42,20 @@ public class HelloController {
         Role role = new Role();
         role.setId(1);
         role.setName("管理员");
-        role.setAuths("客户拜访统计,计划查询,客户拜访计划定制,计划管理,客户拜访统计,客户拜访计划执行,客户信息管理,无计划客户查询,后台管理");
+        role.setAuths("客户信息管理,客户拜访计划定制,客户拜访统计,客户拜访计划执行,年计划页,后台管理");
 
         user2.setRole(role);
 
-        session.setAttribute("PLAN_TYPE", PlanTypeEnum.values());
         // 测试时取消前三行，加上后三行注释
 
-        session.setAttribute("USER", user2);
+        /*session.setAttribute("USER", user2);
         model.addAttribute("auths", user2.getRole().getAuths());
-        return "index";
-
-
-        /*UserVO userVo = (UserVO) session.getAttribute("USER");
-        model.addAttribute("auths", userVo.getRole().getAuths());
         return "index";*/
+
+
+        UserVO userVo = (UserVO) session.getAttribute("USER");
+        model.addAttribute("auths", userVo.getRole().getAuths());
+        return "index";
 
 
     }
@@ -231,4 +229,37 @@ public class HelloController {
     public String customerResult() {
         return "customerResult";
     }
+
+    /**
+     * 客户经理拜访情况统计
+     */
+    @GetMapping("/userResult")
+    public String userResult() {
+        return "userResult";
+    }
+
+    /**
+     * 反馈详情
+     */
+    @GetMapping("/resultView")
+    public String resultView() {
+        return "resultView";
+    }
+
+    /**
+     * 添加拜访记录
+     */
+    @GetMapping("/resultManage")
+    public String resultManage() {
+        return "resultManage";
+    }
+
+    /**
+     * 客户列表
+     */
+    @GetMapping("/customerList")
+    public String customerList() {
+        return "customerList";
+    }
+
 }

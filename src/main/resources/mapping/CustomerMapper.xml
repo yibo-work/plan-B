@@ -7,13 +7,8 @@
 
     <!--查询客户-->
     <select id="queryCustomerList" resultType="com.pojo.Customer">
-        select id, company_name, man, phone, address, plan_flag
-        from customer
-        <where>
-            <if test="planFlag != null">
-                plan_Flag = #{planFlag,jdbcType=INTEGER}
-            </if>
-        </where>
+        select id, company_name, man, phone, address
+        from customer a
     </select>
 
     <!--新增客户-->
@@ -61,11 +56,16 @@
 
     <!--查询客户是否被拜访-->
     <select id="queryCustomerListByResult" resultType="com.pojo.Customer">
-        select id, company_name, man, phone, address, plan_flag
+        select id, company_name, man, phone, address, (Select COUNT(0) from result where a.id =
+        result.customer_id) as result_count
         from customer a
         <where>
             <if test="result != null and result != ''">
-            and ${result} (SELECT 1 from result s where a.id = s.customer_id)
+                and ${result} (SELECT 1 from result s where a.id = s.customer_id)
+            </if>
+            <if test="companyName != null and companyName != ''">
+                and company_name like concat('%',#{companyName},'%')
+            </if>
         </where>
     </select>
 
