@@ -59,7 +59,7 @@
                             <td v-text="result.shouldCount"></td>
                             <td v-text="result.realCount"></td>
                             <td class="td-manage">
-                                <button class="layui-btn" id="backIdea">
+                                <button class="layui-btn backIdea">
                                     <i class="layui-icon"></i>意见反馈
                                 </button>
                             </td>
@@ -103,14 +103,14 @@
     layui.use(['form'], function () {
 
         var layer = layui.layer;
-        $("#backIdea").click(function () {
+        $(".backIdea").click(function () {
             //例子2
             layer.prompt({
                 formType: 2,
                 value: '请输入反馈意见',
                 title: '反馈意见',
                 area: ['150px', '100px'] //自定义文本域宽高
-            }, function(value, index, elem){
+            }, function (value, index, elem) {
                 layer.close(index);
             });
 

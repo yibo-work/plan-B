@@ -40,6 +40,8 @@ public class MonthPlan implements Serializable {
      * 执行人id
      */
     private Integer execUserId;
+
+    private String execUserName;
     /**
      * 执行人电话
      */
