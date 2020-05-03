@@ -20,7 +20,7 @@ public class MonthPlan implements Serializable {
     private Integer id;
 
     /**
-     * 计划时间
+     * 计划名称
      */
     private String execTime;
 
@@ -64,7 +64,7 @@ public class MonthPlan implements Serializable {
 
 
     /**
-     * 季度计划时间
+     * 季度计划名称
      */
     private String quarterPlanExecTime;
     /**
@@ -72,7 +72,7 @@ public class MonthPlan implements Serializable {
      */
     private Integer yearPlanId;
     /**
-     * 年计划时间
+     * 年计划名称
      */
     private String yearPlanExecTime;
 }

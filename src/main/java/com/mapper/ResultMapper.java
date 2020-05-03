@@ -16,7 +16,9 @@ public interface ResultMapper {
 
     List<UserResult> queryResultList(@Param("name") String name);
 
-    List<Result> queryResultPage();
+    List<Result> queryResultPage(@Param("customerId") Integer customerId);
 
     Result getResultById(@Param("resultId") Integer resultId);
+
+    int updateResult(@Param("result") Result result);
 }

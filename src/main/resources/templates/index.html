@@ -85,6 +85,19 @@
                     </li>
                 </ul>
             </li>
+            <li th:if="${auths != null and #strings.contains(auths,'客户拜访计划执行')}">
+                <a href="javascript:">
+                    <i class="iconfont left-nav-li" lay-tips="客户拜访计划执行">&#xe726;</i>
+                    <cite>客户拜访计划执行</cite>
+                    <i class="iconfont nav_right"></i></a>
+                <ul class="sub-menu" style="display: block;">
+                    <li>
+                        <a onclick="xadmin.add_tab('拜访结果记录','/resultManage')">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>拜访结果记录</cite></a>
+                    </li>
+                </ul>
+            </li>
             <li th:if="${auths != null and #strings.contains(auths,'客户拜访统计')}">
                 <a href="javascript:">
                     <i class="iconfont left-nav-li" lay-tips="客户拜访统计">&#xe726;</i>
@@ -105,19 +118,6 @@
                         <a onclick="xadmin.add_tab('未拜访客户统计','/customerNoResult')">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>未拜访客户统计</cite></a>
-                    </li>
-                </ul>
-            </li>
-            <li th:if="${auths != null and #strings.contains(auths,'客户拜访计划执行')}">
-                <a href="javascript:">
-                    <i class="iconfont left-nav-li" lay-tips="客户拜访计划执行">&#xe726;</i>
-                    <cite>客户拜访计划执行</cite>
-                    <i class="iconfont nav_right"></i></a>
-                <ul class="sub-menu" style="display: block;">
-                    <li>
-                        <a onclick="xadmin.add_tab('拜访结果记录','/resultManage')">
-                            <i class="iconfont">&#xe6a7;</i>
-                            <cite>拜访结果记录</cite></a>
                     </li>
                 </ul>
             </li>

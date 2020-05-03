@@ -12,6 +12,7 @@ import java.util.List;
 public interface YearPlanMapper {
 
     List<YearPlan> queryPlanList();
+    List<YearPlan> queryUsefullPlanList();
 
     int addPlan(@Param("plan") YearPlan plan);
 

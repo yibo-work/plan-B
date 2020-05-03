@@ -24,11 +24,18 @@ public class ResultController {
         return ResultVOUtil.success();
     }
 
+    @PostMapping("/updateResult")
+    public ResultVO updateResult(@RequestBody Result result) {
+        resultService.updateResult(result);
+        return ResultVOUtil.success();
+    }
+
     @GetMapping("/resultPage")
     public PageInfo<Result> queryAllResult(@RequestParam("pageNum") Integer pageNum
             , @RequestParam("pageSize") Integer pageSize
+            , @RequestParam(value = "customerId", required = false) Integer customerId
     ) {
-        return resultService.queryResultPage(pageNum, pageSize);
+        return resultService.queryResultPage(pageNum, pageSize, customerId);
     }
 
 

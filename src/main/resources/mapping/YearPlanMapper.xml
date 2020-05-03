@@ -27,6 +27,9 @@
                  left join user a ON a.id = first_user_id
                  left join user s ON s.id = second_user_id
                  left join user d ON d.id = apply_user_id
+        <where>
+
+        </where>
     </select>
 
     <!--新增年计划-->
@@ -48,18 +51,18 @@
 
     <!--查询单个年计划-->
     <select id="getPlanById" resultType="com.pojo.YearPlan">
-        SELECT yp.id,
+        select yp.id,
                exec_time,
                overview,
                situation,
                target,
                first_user_id,
+               a.name as first_user_name,
                first_idea,
                second_user_id,
+               s.name as second_user_name,
                second_idea,
                apply_user_id,
-               a.name as first_user_name,
-               s.name as second_user_name,
                d.name as apply_user_name,
                status,
                first_time,
@@ -70,6 +73,31 @@
                  left join user s ON s.id = second_user_id
                  left join user d ON d.id = apply_user_id
         where yp.id = #{id}
+    </select>
+
+    <select id="queryUsefullPlanList" resultType="com.pojo.YearPlan">
+        select yp.id,
+               exec_time,
+               overview,
+               situation,
+               target,
+               first_user_id,
+               a.name as first_user_name,
+               first_idea,
+               second_user_id,
+               s.name as second_user_name,
+               second_idea,
+               apply_user_id,
+               d.name as apply_user_name,
+               status,
+               first_time,
+               second_time,
+               apply_time
+        from year_plan yp
+                 left join user a ON a.id = first_user_id
+                 left join user s ON s.id = second_user_id
+                 left join user d ON d.id = apply_user_id
+        where yp.status = 2
     </select>
 
 

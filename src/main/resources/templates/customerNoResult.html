@@ -32,9 +32,10 @@
                     <table class="layui-table layui-form">
                         <thead>
                         <tr>
-                            <th>公司名称</th>
+                            <th>序号</th>
+                            <th>年计划名称</th>
+                            <th>客户名称</th>
                             <th>负责人</th>
-                            <th>联系人</th>
                             <th>电话</th>
                             <th>公司地址</th>
                         </tr>
@@ -42,6 +43,7 @@
                         <tbody>
                         <tr v-for="customer,i in pageInfo.list">
                             <td v-text="i+1"></td>
+                            <td v-text="customer.yearPlanExecTime"></td>
                             <td v-text="customer.companyName"></td>
                             <td v-text="customer.man"></td>
                             <td v-text="customer.phone"></td>

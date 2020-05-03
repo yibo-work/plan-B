@@ -247,6 +247,14 @@ public class HelloController {
     }
 
     /**
+     * 修改反馈记录
+     */
+    @GetMapping("/resultUpdate")
+    public String resultUpdate() {
+        return "resultUpdate";
+    }
+
+    /**
      * 添加拜访记录
      */
     @GetMapping("/resultManage")

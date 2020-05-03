@@ -19,33 +19,76 @@
                , #{result.customerId,jdbcType=INTEGER}
                , #{result.execUserId,jdbcType=INTEGER}, #{result.monthId,jdbcType=INTEGER});
     </insert>
+
+
+    <update id="updateResult">
+        update `result`
+        <trim prefix="set" suffixOverrides="," suffix=" where id = #{result.id}">
+            <if test="result.sales != null and result.sales !=''">
+                sales = #{result.sales},
+            </if>
+            <if test="result.brand != null and result.brand !=''">
+                brand = #{result.brand},
+            </if>
+            <if test="result.status != null and result.status !=''">
+                `status` = #{result.status},
+            </if>
+            <if test="result.group != null and result.group !=''">
+                `group` = #{result.group},
+            </if>
+            <if test="result.earnings != null and result.earnings !=''">
+                earnings = #{result.earnings},
+            </if>
+            <if test="result.range != null and result.range !=''">
+                `range` = #{result.range},
+            </if>
+            <if test="result.problem != null and result.problem !=''">
+                problem = #{result.problem},
+            </if>
+        </trim>
+
+    </update>
+
+
     <select id="queryResultList" resultType="com.pojo.UserResult">
-        select id, name, (SELECT count(0) from month_plan month where month.exec_user_id = user.id ) as should_count,
-        (SELECT count(0) from result rs where rs.exec_user_id = user.id ) as real_count
-        from user
-        where role_id = 1
+        select a.exec_time                                                   as year_plan_exec_time,
+        d.id,
+        d.name,
+        (SELECT count(0)
+        from customer cs
+        where position(concat(cs.id) in s.customer_ids) != 0
+        and s.exec_user_id = d.id)                                 as should_count,
+        (SELECT count(0) from result rs where rs.exec_user_id = d.id and rs.month_id = s.id) as real_count
+        from year_plan a
+        left join month_plan s ON a.id = s.year_plan_id
+        left join user d On d.id = s.exec_user_id
         <if test="name != null and name !=''">
-            and `name` like concat('%', #{name},'%')
+            and d.`name` like concat('%', #{name},'%')
         </if>
     </select>
 
     <select id="queryResultPage" resultType="com.pojo.Result">
-        select a.id    as id,
-               a.exec_time,
-               s.id    as customer_id,
-               s.company_name,
-               man,
-               s.phone as `phone`,
-               address,
-               a.exec_user_id,
-               name,
-               password,
-               u.phone as user_phone,
-               r.id    as result_id
+        select distinct a.id as id,
+        a.exec_time,
+        s.id as customer_id,
+        s.company_name,
+        man,
+        s.phone as `phone`,
+        address,
+        a.exec_user_id,
+        name,
+        password,
+        u.phone as user_phone,
+        r.id as result_id
         from month_plan a
-                 left join customer s ON position(concat(s.id) in a.customer_ids) != 0
-                 left join user u on a.exec_user_id = u.id
-                 left join result r on a.id = r.month_id and customer_id = s.id
+        left join customer s ON position(concat(s.id) in a.customer_ids) != 0
+        left join user u on a.exec_user_id = u.id
+        left join result r on a.id = r.month_id and r.customer_id = s.id and r.exec_user_id = u.id
+        <where>
+            <if test="customerId != null and customerId != ''">
+                and a.exec_user_id = #{customerId}
+            </if>
+        </where>
         order by a.id
     </select>
 

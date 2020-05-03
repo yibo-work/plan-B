@@ -60,6 +60,10 @@
                                         class="layui-btn ">
                                     <i class="layui-icon"></i>添加拜访结果记录
                                 </button>
+                                <button @click="updateResult(result.resultId)"
+                                        class="layui-btn layui-btn-warm">
+                                    <i class="layui-icon layui-icon-edit"></i>修改拜访结果记录
+                                </button>
                                 <button @click="viewResult(result.resultId)"
                                         class="layui-btn layui-btn-primary">
                                     <i class="layui-icon layui-icon-console"></i>反馈详情
@@ -99,10 +103,9 @@
     </div>
 </div>
 </body>
-<script type="text/javascript">
+<script th:inline="javascript" type="text/javascript">
 
-    layui.use(['form'], function () {
-    });
+    var sessionUser = [[${session.USER.user}]];
 
     vm = new Vue({
         el: "#vmResult",
@@ -118,6 +121,10 @@
                     url += "&pageSize=" + _this.pageInfo.pageSize;
                 } else {
                     url += "&pageSize=" + pageSize;
+                }
+
+                if (sessionUser.roleId != 5) {
+                    url += "&customerId=" + sessionUser.id;
                 }
 
                 $.getJSON(url, function (data) {
@@ -143,11 +150,22 @@
                     layer.alert("暂无反馈详情！");
                 }
                 sessionStorage.setItem("viewResultId", viewResultId);
+            },
+            updateResult: function (updateResultId) {
+                if (updateResultId) {
+                    xadmin.open('修改反馈记录', '/resultUpdate', 500, 700)
+                } else {
+                    layer.alert("暂无反馈详情！");
+                }
+                sessionStorage.setItem("updateResultId", updateResultId);
             }
         },
         created: function () {
             this.getPage(1, 5);
         }
+    });
+
+    layui.use(['form'], function () {
     });
 
 </script>

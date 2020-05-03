@@ -2,7 +2,7 @@
 <html class="x-admin-sm" lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>拜访结果记录</title>
+    <title>修改反馈记录</title>
     <meta content="webkit" name="renderer">
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8" name="viewport"/>
@@ -14,18 +14,18 @@
     <script charset="utf-8" th:src="@{/js/vue.js}" type="text/javascript"></script>
 </head>
 <body>
-<div class="layui-fluid" id="vmAddResult">
+<div class="layui-fluid" id="vmUpdateYearResult">
     <div class="layui-row">
         <form class="layui-form">
             <div class="layui-form-item">
-                <label class="layui-form-label" for="customerName">
+                <label class="layui-form-label" for="customerId">
                     <span class="x-red">*</span>拜访客户
                 </label>
                 <div class="layui-input-block">
                     <div class="layui-input-inline layui-show-xs-block">
-                        <input class="layui-input" autocomplete="off" id="customerName" lay-verify="required"
-                               name="customerName"
-                               readonly type="text">
+                        <input :value="result.customerName" class="layui-input" id="customerId" lay-verify="required"
+                               readonly
+                               type="text">
                     </div>
                 </div>
             </div>
@@ -35,7 +35,8 @@
                 </label>
                 <div class="layui-input-block">
                     <div class="layui-input-inline layui-show-xs-block">
-                        <input class="layui-input" autocomplete="off" id="sales" lay-verify="required" name="sales" type="text">
+                        <input :value="result.sales" class="layui-input" id="sales" lay-verify="required" name="sales"
+                               type="text">
                     </div>
                 </div>
             </div>
@@ -45,7 +46,9 @@
                 </label>
                 <div class="layui-input-block">
                     <div class="layui-input-inline layui-show-xs-block">
-                        <input class="layui-input" autocomplete="off" id="brand" lay-verify="required" name="brand" type="text">
+                        <input :value="result.brand" class="layui-input" id="brand" lay-verify="required" name="brand"
+
+                               type="text">
                     </div>
                 </div>
             </div>
@@ -55,7 +58,9 @@
                 </label>
                 <div class="layui-input-block">
                     <div class="layui-input-inline layui-show-xs-block">
-                        <input class="layui-input" autocomplete="off" id="status" lay-verify="required" name="status" type="text">
+                        <input :value="result.status" class="layui-input" id="status" lay-verify="required"
+                               name="status"
+                               type="text">
                     </div>
                 </div>
             </div>
@@ -90,7 +95,9 @@
                 </label>
                 <div class="layui-input-block">
                     <div class="layui-input-inline layui-show-xs-block">
-                        <input class="layui-input" autocomplete="off" id="earnings" lay-verify="required" name="earnings" type="text">
+                        <input :value="result.earnings" class="layui-input" id="earnings" lay-verify="required"
+                               name="earnings"
+                               type="text">
                     </div>
                 </div>
             </div>
@@ -127,13 +134,15 @@
                 </label>
                 <div class="layui-input-block">
                     <div class="layui-input-inline layui-show-xs-block">
-                        <input class="layui-input" autocomplete="off" id="problem" lay-verify="required" name="problem" type="text">
+                        <input :value="result.problem" class="layui-input" id="problem" lay-verify="required"
+                               name="problem"
+                               type="text">
                     </div>
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label"></label>
-                <button class="layui-btn" lay-filter="add" lay-submit="" style="width:77px;margin-right: 20px">
+                <label class="layui-form-label" for="problem"></label>
+                <button class="layui-btn" lay-filter="update" lay-submit="" style="width:77px;margin-right: 20px">
                     提交
                 </button>
                 <button class="layui-btn" id="reset" onclick="xadmin.close();" style="width:77px;"> 返回
@@ -144,25 +153,60 @@
 </div>
 <script charset="UTF-8" type="text/javascript">
 
-    layui.use(['form', 'layer'],
+    var updateResultId = sessionStorage.getItem("updateResultId");
+
+    vm = new Vue({
+        el: "#vmUpdateYearResult",
+        data: {
+            result: {}
+        },
+        created: function () {
+            var _this = this;
+            $.ajax({
+                url: "/result/getResult",
+                data: {
+                    "resultId": updateResultId
+                },
+                dataType: "json",
+                type: "get",
+                success: function (result) {
+                    if (result.code === 200) {
+                        _this.result = result.data;
+
+                        $("[name=group]").each(function () {
+                            if (result.data.group.indexOf($(this).val()) > -1) {
+                                $(this).prop("checked", true);
+                            }
+                        });
+                        $("[name=range]").each(function () {
+                            if (result.data.range.indexOf($(this).val()) > -1) {
+                                $(this).prop("checked", true);
+                            }
+                        });
+
+                    } else {
+                        layer.alert("获取信息失败！");
+                    }
+                }
+            });
+        }
+    });
+
+    layui.use(['form', 'layer', 'laydate'],
         function () {
             var form = layui.form,
-                layer = layui.layer;
-
-            $("#customerName").val(sessionStorage.getItem("resultAddCustomerName"));
+                layer = layui.layer,
+                laydate = layui.laydate;
 
             //监听提交
-            form.on('submit(add)',
+            form.on('submit(update)',
                 function (data) {
-                    data.field.monthId = sessionStorage.getItem("resultAddMonthId");
-                    data.field.customerId = sessionStorage.getItem("resultAddCustomerId");
 
                     var groupValue = "";
                     $("[name=group]").each(function () {
                         if ($(this).prop("checked")) {
                             groupValue += $(this).val() + ",";
                         }
-
                     });
                     data.field.group = groupValue.substring(0, groupValue.length - 1);
 
@@ -171,20 +215,20 @@
                         if ($(this).prop("checked")) {
                             rangeValue += $(this).val() + ",";
                         }
-
                     });
                     data.field.range = rangeValue.substring(0, rangeValue.length - 1);
 
+                    data.field.id = updateResultId;
                     //发异步，把数据提交给java
                     $.ajax({
-                        url: "/result/addResult",
+                        url: "/result/updateResult",
                         data: JSON.stringify(data.field),
                         dataType: "json",
                         type: "post",
                         contentType: "application/json",
                         success: function (result) {
                             if (result.code === 200) {
-                                layer.msg("增加成功", {icon: 6, time: 500},
+                                layer.msg("修改成功", {icon: 6, time: 500},
                                     function () {
                                         //关闭当前frame
                                         xadmin.close();

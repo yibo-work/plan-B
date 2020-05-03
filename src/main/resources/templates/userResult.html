@@ -31,7 +31,8 @@
                 <div class="layui-card-body ">
                     <form class="layui-form layui-col-space5" onsubmit="return false;">
                         <div class="layui-input-inline layui-show-xs-block">
-                            <input class="layui-input" name="name" placeholder="客户经理" type="text"></div>
+                            <input autocomplete="off" class="layui-input" name="name" placeholder="客户经理" type="text">
+                        </div>
                         <div class="layui-input-inline layui-show-xs-block">
                             <button class="layui-btn" lay-filter="sreach" lay-submit="" onclick="search()"
                                     v-on:keyup.enter="search()">
@@ -47,6 +48,7 @@
                     <table class="layui-table layui-form">
                         <thead>
                         <tr>
+                            <th>年计划名称</th>
                             <th>客户经理名</th>
                             <th>应拜访客户数</th>
                             <th>实际拜访客户数</th>
@@ -55,6 +57,7 @@
                         </thead>
                         <tbody>
                         <tr v-for="result,i in pageInfo.list">
+                            <td v-text="result.yearPlanExecTime"></td>
                             <td v-text="result.name"></td>
                             <td v-text="result.shouldCount"></td>
                             <td v-text="result.realCount"></td>

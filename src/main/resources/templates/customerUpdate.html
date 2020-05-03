@@ -23,7 +23,7 @@
                 </label>
                 <div class="layui-input-block">
                     <div class="layui-input-inline layui-show-xs-block">
-                        <input class="layui-input" id="companyName"  name="companyName" type="text"
+                        <input class="layui-input" autocomplete="off" id="companyName"  name="companyName" type="text"
                                v-model="customer.companyName">
                     </div>
                 </div>
@@ -34,7 +34,7 @@
                 </label>
                 <div class="layui-input-block">
                     <div class="layui-input-inline layui-show-xs-block">
-                        <input class="layui-input" id="man" lay-verify="required" name="man" type="text"
+                        <input class="layui-input" autocomplete="off" id="man" lay-verify="required" name="man" type="text"
                                v-model="customer.man">
                     </div>
                 </div>
@@ -45,7 +45,7 @@
                 </label>
                 <div class="layui-input-block">
                     <div class="layui-input-inline layui-show-xs-block">
-                        <input class="layui-input" id="phone" lay-verify="required" name="phone" type="text"
+                        <input class="layui-input" autocomplete="off" id="phone" lay-verify="required" name="phone" type="text"
                                v-model="customer.phone">
                     </div>
                 </div>
@@ -56,11 +56,11 @@
                 </label>
                 <div class="layui-input-block">
                     <div class="layui-input-inline layui-show-xs-block">
-                        <input class="layui-input" id="address" lay-verify="required" name="address" type="text"
+                        <input class="layui-input" autocomplete="off" id="address" lay-verify="required" name="address" type="text"
                                v-model="customer.address">
-                        <!--隐藏一个是否有计划-->
-                        <input class="layui-input" id="planFlag" name="planFlag" type="hidden"
-                               v-model="customer.planFlag">
+                       <!-- &lt;!&ndash;隐藏一个是否有计划&ndash;&gt;
+                        <input class="layui-input" autocomplete="off" id="planFlag" name="planFlag" type="hidden"
+                               v-model="customer.planFlag">-->
                     </div>
                 </div>
             </div>

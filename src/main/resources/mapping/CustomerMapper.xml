@@ -22,7 +22,7 @@
     <select id="getCustomerById" resultType="com.pojo.Customer" useCache="true">
         Select *
         from customer
-        where id = #{id};
+        where id = #{id}
     </select>
 
     <!--修改客户-->
@@ -41,9 +41,6 @@
             <if test="customer.address != null and customer.address !=''">
                 address = #{customer.address},
             </if>
-            <if test="customer.planFlag != null and customer.planFlag !=''">
-                plan_flag=#{customer.planFlag},
-            </if>
         </trim>
     </update>
 
@@ -56,20 +53,19 @@
 
     <!--查询客户是否被拜访-->
     <select id="queryCustomerListByResult" resultType="com.pojo.Customer">
-        select id, company_name, man, phone, address, (Select COUNT(0) from result where a.id =
-        result.customer_id) as result_count
-        from customer a
+        Select yp.exec_time as year_plan_exec_time, s.id, company_name, man, phone, address
+        from customer s
+        left join month_plan a ON position(concat(s.id) in a.customer_ids) != 0
+        left join year_plan yp on a.year_plan_id = yp.id
         <where>
             <if test="result != null and result != ''">
-                and ${result} (SELECT 1 from result s where a.id = s.customer_id)
+                and ${result} (Select 1 from result f where f.month_id = a.id and f.customer_id = s.id)
+                and yp.id is not null
             </if>
             <if test="companyName != null and companyName != ''">
-                and company_name like concat('%',#{companyName},'%')
+                and s.company_name like concat('%',#{companyName},'%')
             </if>
         </where>
-<!--TODO 改这个-->
-        select * from month_plan a
-        left join result
     </select>
 
 </mapper>

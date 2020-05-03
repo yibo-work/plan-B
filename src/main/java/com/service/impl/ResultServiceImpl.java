@@ -26,15 +26,20 @@ public class ResultServiceImpl implements IResultService {
     }
 
     @Override
+    public int updateResult(Result result) {
+        return resultMapper.updateResult(result);
+    }
+
+    @Override
     public PageInfo<UserResult> queryResultList(Integer pageNum, Integer pageSize, String name) {
         PageHelper.startPage(pageNum, pageSize);
         return new PageInfo<>(resultMapper.queryResultList(name));
     }
 
     @Override
-    public PageInfo<Result> queryResultPage(Integer pageNum, Integer pageSize) {
+    public PageInfo<Result> queryResultPage(Integer pageNum, Integer pageSize, Integer customerId) {
         PageHelper.startPage(pageNum, pageSize);
-        return new PageInfo<>(resultMapper.queryResultPage());
+        return new PageInfo<>(resultMapper.queryResultPage(customerId));
     }
 
     @Override

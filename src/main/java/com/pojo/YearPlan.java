@@ -20,7 +20,7 @@ public class YearPlan implements Serializable {
     private Integer id;
 
     /**
-     * 计划时间
+     * 计划名称
      */
     private String execTime;
 

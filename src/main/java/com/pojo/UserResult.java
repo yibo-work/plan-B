@@ -17,7 +17,10 @@ public class UserResult implements Serializable {
 
     private String name;
 
+    private String yearPlanExecTime;
+
     private Integer shouldCount;
+
 
     private Integer realCount;
 

@@ -55,7 +55,7 @@ public class YearPlanServiceImpl implements IYearPlanService {
 
     @Override
     public List<YearPlan> getYearPlanList() {
-        return yearPlanMapper.queryPlanList();
+        return yearPlanMapper.queryUsefullPlanList();
     }
 
 }
