@@ -38,6 +38,8 @@
                     <table class="layui-table layui-form">
                         <thead>
                         <tr>
+                            <th>年计划名称</th>
+                            <th>季度计划名称</th>
                             <th>时间</th>
                             <th>计划目标</th>
                             <th>拜访客户</th>
@@ -50,6 +52,8 @@
                         </thead>
                         <tbody>
                         <tr v-for="monthPlan,i in pageInfo.list">
+                            <td v-text="monthPlan.yearPlanExecTime"></td>
+                            <td v-text="monthPlan.quarterPlanExecTime"></td>
                             <td v-text="monthPlan.execTime"></td>
                             <td v-text="monthPlan.target"></td>
                             <td v-text="monthPlan.customerList"></td>
@@ -129,8 +133,6 @@
                 } else {
                     url += "&pageSize=" + pageSize;
                 }
-
-                url += "&quarterPlanId=" + sessionStorage.getItem("updateMonthPlanQuarterPlanId");
 
                 $.getJSON(url, function (data) {
                     _this.pageInfo = data;

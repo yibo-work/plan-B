@@ -7,12 +7,18 @@
 
     <select id="queryPlanList" resultType="com.pojo.QuarterPlan">
         select yp.id,
-               exec_time,
-               overview,
-               target,
-               year_plan_id
+        yp.exec_time,
+        yp.overview,
+        yp.target,
+        year_plan_id,
+        y.exec_time as year_plan_exec_time
         from quarter_plan yp
-        where year_plan_id = #{yearPlanId}
+        left join year_plan y on yp.year_plan_id = y.id
+        <where>
+            <if test="yearPlanId != null and yearPlanId != ''">
+                and year_plan_id = #{yearPlanId}
+            </if>
+        </where>
     </select>
 
     <!--新增年计划-->
@@ -26,12 +32,14 @@
 
     <!--查询单个年计划-->
     <select id="getPlanById" resultType="com.pojo.QuarterPlan">
-        SELECT yp.id,
-               exec_time,
-               overview,
-               target,
-               year_plan_id
+        select yp.id,
+               yp.exec_time,
+               yp.overview,
+               yp.target,
+               year_plan_id,
+               y.exec_time as year_plan_exec_time
         from quarter_plan yp
+                 left join year_plan y on yp.year_plan_id = y.id
         where yp.id = #{id}
     </select>
 

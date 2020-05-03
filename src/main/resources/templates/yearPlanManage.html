@@ -30,7 +30,7 @@
             <div class="layui-card">
 
                 <div class="layui-card-header">
-                    <button class="layui-btn" onclick="xadmin.open('年计划增加','/yearPlanAdd',700,600)">
+                    <button class="layui-btn" onclick="xadmin.open('年计划增加','/yearPlanAdd',600,600)">
                         <i class="layui-icon"></i>年计划增加
                     </button>
                 </div>
@@ -58,27 +58,27 @@
                                 <button @click="updatePlan(yearPlan.id)"
                                         class="layui-btn layui-btn-warm"
                                         id="editPlan"
-                                        onclick="xadmin.open('编辑年计划','/yearPlanUpdate',700,600)">
+                                        onclick="xadmin.open('编辑年计划','/yearPlanUpdate',600,600)">
                                     <i class="layui-icon">&#xe631;</i>编辑
                                 </button>
                                 <button @click="approvePlan(yearPlan.id)"
                                         class="layui-btn layui-btn-primary"
                                         id="approvePlan"
-                                        onclick="xadmin.open('审批年计划','/yearPlanApprove',700,900)">
+                                        onclick="xadmin.open('审批年计划','/yearPlanApprove',600,900)">
                                     <i class="layui-icon"></i>审批
                                 </button>
                                 <button @click="viewPlan(yearPlan.id)"
                                         class="layui-btn"
                                         id="viewPlan"
-                                        onclick="xadmin.open('年计划详情','/yearPlanView',700,900)">
+                                        onclick="xadmin.open('年计划详情','/yearPlanView',600,900)">
                                     <i class="layui-icon layui-icon-console"></i>计划详情
                                 </button>
-                                <button @click="updateQuarterPlan(yearPlan.id)"
+                                <!--<button @click="updateQuarterPlan(yearPlan.id)"
                                         class="layui-btn layui-btn-warm"
                                         id="updateQuarterPlan"
                                         onclick="xadmin.open('编辑季度计划','/quarterPlanManage', 1200,1000,true)">
                                     <i class="layui-icon"></i>编辑季度计划
-                                </button>
+                                </button>-->
                                 <button @click="removePlan(yearPlan.id)" class="layui-btn layui-btn-danger"
                                         id="delPlan">
                                     <i class="layui-icon">&#xe640;</i>删除

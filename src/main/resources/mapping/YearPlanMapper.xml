@@ -19,7 +19,10 @@
                second_idea,
                apply_user_id,
                d.name as apply_user_name,
-               status
+               status,
+               first_time,
+               second_time,
+               apply_time
         from year_plan yp
                  left join user a ON a.id = first_user_id
                  left join user s ON s.id = second_user_id
@@ -29,7 +32,7 @@
     <!--新增年计划-->
     <insert id="addPlan">
         insert into year_plan(exec_time, overview, situation, target, first_user_id, first_idea, second_user_id,
-                              second_idea, apply_user_id, status)
+                              second_idea, apply_user_id, status, apply_time)
         VALUES ( #{plan.execTime,jdbcType=VARCHAR}
                , #{plan.overview,jdbcType=VARCHAR}
                , #{plan.situation,jdbcType=VARCHAR}
@@ -39,7 +42,8 @@
                , #{plan.secondUserId,jdbcType=INTEGER}
                , #{plan.secondIdea,jdbcType=VARCHAR}
                , #{plan.applyUserId,jdbcType=INTEGER}
-               , #{plan.status,jdbcType=INTEGER});
+               , #{plan.status,jdbcType=INTEGER},
+                 current_timestamp);
     </insert>
 
     <!--查询单个年计划-->
@@ -57,7 +61,10 @@
                a.name as first_user_name,
                s.name as second_user_name,
                d.name as apply_user_name,
-               status
+               status,
+               first_time,
+               second_time,
+               apply_time
         from year_plan yp
                  left join user a ON a.id = first_user_id
                  left join user s ON s.id = second_user_id
@@ -99,6 +106,12 @@
             </if>
             <if test="plan.status != null and plan.status !=''">
                 `status`=#{plan.status,jdbcType=INTEGER},
+            </if>
+            <if test="plan.firstTime != null and plan.firstTime !=''">
+                `first_time`=#{plan.firstTime,jdbcType=INTEGER},
+            </if>
+            <if test="plan.secondTime != null and plan.secondTime !=''">
+                `second_time`=#{plan.secondTime,jdbcType=INTEGER},
             </if>
         </trim>
         ;

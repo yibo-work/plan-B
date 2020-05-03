@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Service
 public class YearPlanServiceImpl implements IYearPlanService {
@@ -50,6 +51,11 @@ public class YearPlanServiceImpl implements IYearPlanService {
     @Override
     public int removePlanById(Integer roomId) {
         return yearPlanMapper.removePlanById(roomId);
+    }
+
+    @Override
+    public List<YearPlan> getYearPlanList() {
+        return yearPlanMapper.queryPlanList();
     }
 
 }

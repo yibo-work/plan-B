@@ -18,7 +18,7 @@ public class MonthPlanController {
     @GetMapping("/page")
     public PageInfo<MonthPlan> queryAllPlan(@RequestParam("pageNum") Integer pageNum
             , @RequestParam("pageSize") Integer pageSize
-            , @RequestParam("quarterPlanId") Integer quarterPlanId
+            , @RequestParam(value = "quarterPlanId", required = false) Integer quarterPlanId
 
     ) {
         return monthPlanService.queryPlanList(pageNum, pageSize, quarterPlanId);

@@ -48,7 +48,7 @@
                 <div class="layui-input-block">
                     <div class="layui-input-inline layui-show-xs-block">
                         <textarea class="layui-textarea" id="situation" name="situation" readonly
-                                  rows="4"
+                                  rows="3"
                                   v-text="yearPlan.situation"></textarea>
                     </div>
                 </div>
@@ -60,7 +60,7 @@
                 <div class="layui-input-block">
                     <div class="layui-input-inline layui-show-xs-block">
                         <textarea class="layui-textarea" id="target" name="target" readonly
-                                  rows="4"
+                                  rows="3"
                                   v-text="yearPlan.target"></textarea>
                     </div>
                 </div>
@@ -73,6 +73,18 @@
                     <div class="layui-input-inline layui-show-xs-block">
                         <input :value="yearPlan.applyUserName" class="layui-input" id="applyUserName"
                                name="applyUserName"
+                               readonly type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" for="applyTime">
+                    申请时间
+                </label>
+                <div class="layui-input-block">
+                    <div class="layui-input-inline layui-show-xs-block">
+                        <input :value="yearPlan.applyTime" class="layui-input" id="applyTime"
+                               name="applyTime"
                                readonly type="text">
                     </div>
                 </div>
@@ -96,8 +108,20 @@
                 <div class="layui-input-block">
                     <div class="layui-input-inline layui-show-xs-block">
                         <textarea class="layui-textarea" id="firstIdea" name="firstIdea" readonly
-                                  rows="4"
+                                  rows="3"
                                   v-text="yearPlan.firstIdea"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" for="firstTime">
+                    审批时间
+                </label>
+                <div class="layui-input-block">
+                    <div class="layui-input-inline layui-show-xs-block">
+                        <input :value="yearPlan.firstTime" class="layui-input" id="firstTime"
+                               name="firstTime"
+                               readonly type="text">
                     </div>
                 </div>
             </div>
@@ -121,8 +145,20 @@
                 <div class="layui-input-block">
                     <div class="layui-input-inline layui-show-xs-block">
                         <textarea class="layui-textarea" id="secondIdea" name="secondIdea" readonly
-                                  rows="4"
+                                  rows="3"
                                   v-text="yearPlan.secondIdea"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" for="secondTime">
+                    审批时间
+                </label>
+                <div class="layui-input-block">
+                    <div class="layui-input-inline layui-show-xs-block">
+                        <input :value="yearPlan.secondTime" class="layui-input" id="secondTime"
+                               name="secondTime"
+                               readonly type="text">
                     </div>
                 </div>
             </div>

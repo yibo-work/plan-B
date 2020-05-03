@@ -43,7 +43,7 @@
                 </label>
                 <div class="layui-input-block">
                     <div class="layui-input-inline layui-show-xs-block">
-                        <textarea class="layui-textarea" id="situation" rows="4" lay-verify="required" name="situation"></textarea>
+                        <textarea class="layui-textarea" id="situation" rows="3" lay-verify="required" name="situation"></textarea>
                     </div>
                 </div>
             </div>
@@ -53,7 +53,7 @@
                 </label>
                 <div class="layui-input-block">
                     <div class="layui-input-inline layui-show-xs-block">
-                        <textarea class="layui-textarea" id="target" rows="4" lay-verify="required" name="target"></textarea>
+                        <textarea class="layui-textarea" id="target" rows="3" lay-verify="required" name="target"></textarea>
                     </div>
                 </div>
             </div>
@@ -80,6 +80,29 @@
     </div>
 </div>
 <script charset="UTF-8" type="text/javascript">
+
+    vm = new Vue({
+        el: "#vmAddYearPlan",
+        data: {
+            userList: []
+        },
+        methods: {},
+        created: function () {
+            var _this = this;
+            $.ajax({
+                url: "/user/queryUserList",
+                dataType: "json",
+                type: "get",
+                success: function (result) {
+                    if (result.code === 200) {
+                        _this.userList = result.data;
+                    } else {
+                        layer.alert("获取审批人信息失败！");
+                    }
+                }
+            });
+        }
+    });
 
     layui.use(['form', 'layer'],
         function () {
@@ -113,7 +136,7 @@
 
                     return false;
                 });
-            form.on('select(selectUser)', function (data) {
+            /*form.on('select(selectUser)', function (data) {
                 var customerId = data.value;
 
                 $.ajax({
@@ -128,31 +151,9 @@
                         }
                     }
                 });
-            })
+            })*/
         });
 
-    vm = new Vue({
-        el: "#vmAddYearPlan",
-        data: {
-            userList: []
-        },
-        methods: {},
-        created: function () {
-            var _this = this;
-            $.ajax({
-                url: "/user/queryUserList",
-                dataType: "json",
-                type: "get",
-                success: function (result) {
-                    if (result.code === 200) {
-                        _this.userList = result.data;
-                    } else {
-                        layer.alert("获取审批人信息失败！");
-                    }
-                }
-            });
-        }
-    });
 </script>
 </body>
 </html>

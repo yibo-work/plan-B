@@ -62,4 +62,17 @@ public class MonthPlan implements Serializable {
      */
     private Integer quarterPlanId;
 
+
+    /**
+     * 季度计划时间
+     */
+    private String quarterPlanExecTime;
+    /**
+     * 年计划id
+     */
+    private Integer yearPlanId;
+    /**
+     * 年计划时间
+     */
+    private String yearPlanExecTime;
 }

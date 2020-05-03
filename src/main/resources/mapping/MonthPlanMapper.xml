@@ -7,19 +7,28 @@
 
     <select id="queryPlanList" resultType="com.pojo.MonthPlan">
         select month.id,
-               exec_time,
-               target,
-               customer_ids,
-               customer_list,
-               exec_user_id,
-               user.name  as exec_user_name,
-               user.phone as exec_user_phone,
-               remark,
-               methods,
-               quarter_plan_id
+        month.exec_time,
+        month.target,
+        customer_ids,
+        customer_list,
+        exec_user_id,
+        user.name as exec_user_name,
+        user.phone as exec_user_phone,
+        remark,
+        methods,
+        month.year_plan_id,
+        quarter_plan_id,
+        yp.exec_time as quarter_plan_exec_time,
+        y.exec_time as year_plan_exec_time
         from month_plan month
-                 left join user ON user.id = exec_user_id
-        where quarter_plan_id = #{quarterPlanId}
+        left join quarter_plan yp ON month.quarter_plan_id = yp.id
+        left join year_plan y on yp.year_plan_id = y.id
+        left join user ON user.id = exec_user_id
+        <where>
+            <if test="quarterPlanId != null and quarterPlanId != ''">
+                and quarter_plan_id = #{quarterPlanId}
+            </if>
+        </where>
     </select>
 
     <!--新增月计划-->
@@ -31,7 +40,8 @@
                                 exec_user_id,
                                 remark,
                                 methods,
-                                quarter_plan_id)
+                                quarter_plan_id,
+                                year_plan_id)
         VALUES ( #{plan.execTime,jdbcType=VARCHAR}
                , #{plan.target,jdbcType=VARCHAR}
                , #{plan.customerIds,jdbcType=VARCHAR}
@@ -39,23 +49,29 @@
                , #{plan.execUserId,jdbcType=VARCHAR}
                , #{plan.remark,jdbcType=VARCHAR}
                , #{plan.methods,jdbcType=VARCHAR}
-               , #{plan.quarterPlanId,jdbcType=INTEGER});
+               , #{plan.quarterPlanId,jdbcType=INTEGER}
+               , #{plan.yearPlanId,jdbcType=INTEGER});
     </insert>
 
     <!--查询单个月计划-->
     <select id="getPlanById" resultType="com.pojo.MonthPlan">
         select month.id,
-               exec_time,
-               target,
+               month.exec_time,
+               month.target,
                customer_ids,
                customer_list,
                exec_user_id,
-               user.name  as exec_user_name,
-               user.phone as exec_user_phone,
+               user.name    as exec_user_name,
+               user.phone   as exec_user_phone,
                remark,
                methods,
-               quarter_plan_id
+               quarter_plan_id,
+               month.year_plan_id,
+               yp.exec_time as quarter_plan_exec_time,
+               y.exec_time  as year_plan_exec_time
         from month_plan month
+                 left join quarter_plan yp ON month.quarter_plan_id = yp.id
+                 left join year_plan y on yp.year_plan_id = y.id
                  left join user ON user.id = exec_user_id
         where month.id = #{id}
     </select>
@@ -88,6 +104,9 @@
             </if>
             <if test="plan.quarterPlanId != null and plan.quarterPlanId !=''">
                 `quarter_plan_id`=#{plan.quarterPlanId,jdbcType=INTEGER},
+            </if>
+            <if test="plan.yearPlanId != null and plan.yearPlanId !=''">
+                `year_plan_id`=#{plan.yearPlanId,jdbcType=INTEGER},
             </if>
         </trim>
         ;

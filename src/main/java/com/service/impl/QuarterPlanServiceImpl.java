@@ -3,15 +3,12 @@ package com.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.mapper.QuarterPlanMapper;
-import com.mapper.UserMapper;
 import com.pojo.QuarterPlan;
-import com.pojo.User;
 import com.service.IQuarterPlanService;
-import com.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Service
 public class QuarterPlanServiceImpl implements IQuarterPlanService {
@@ -19,8 +16,6 @@ public class QuarterPlanServiceImpl implements IQuarterPlanService {
     @Autowired
 
     private QuarterPlanMapper yearPlanMapper;
-    @Autowired
-    private UserMapper userMapper;
 
     @Override
     public PageInfo<QuarterPlan> queryPlanList(Integer pageNum, Integer pageSize, Integer yearPlanId) {
@@ -46,6 +41,11 @@ public class QuarterPlanServiceImpl implements IQuarterPlanService {
     @Override
     public int removePlanById(Integer roomId) {
         return yearPlanMapper.removePlanById(roomId);
+    }
+
+    @Override
+    public List<QuarterPlan> getQuarterPlanList(Integer yearPlanId) {
+        return yearPlanMapper.queryPlanList(yearPlanId);
     }
 
 }

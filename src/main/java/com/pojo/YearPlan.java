@@ -86,4 +86,18 @@ public class YearPlan implements Serializable {
     private Integer status;
 
 
+    /**
+     * 第一次审批时间
+     */
+    private String firstTime;
+
+    /**
+     * 第二次审批时间
+     */
+    private String secondTime;
+
+    /**
+     * 申请时间
+     */
+    private String applyTime;
 }

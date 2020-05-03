@@ -27,3 +27,6 @@ pagehelper:
     count: countSql
   reasonable: false
   support-methods-arguments: true
+logging:
+  level:
+    com:  debug

@@ -22,7 +22,7 @@ public class QuarterPlanController {
     @GetMapping("/page")
     public PageInfo<QuarterPlan> queryAllPlan(@RequestParam("pageNum") Integer pageNum
             , @RequestParam("pageSize") Integer pageSize
-            , @RequestParam("yearPlanId") Integer yearPlanId
+            , @RequestParam(value = "yearPlanId", required = false) Integer yearPlanId
 
     ) {
         return quarterPlanService.queryPlanList(pageNum, pageSize, yearPlanId);
@@ -52,5 +52,11 @@ public class QuarterPlanController {
         quarterPlanService.updatePlan(plan);
         return ResultVOUtil.success();
     }
+
+    @RequestMapping("/getQuarterPlanList")
+    public ResultVO getQuarterPlanList(@RequestParam(value = "yearPlanId", required = false) Integer yearPlanId) {
+        return ResultVOUtil.success(quarterPlanService.getQuarterPlanList(yearPlanId));
+    }
+
 
 }

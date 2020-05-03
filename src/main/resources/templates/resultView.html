@@ -59,20 +59,34 @@
                 </label>
                 <div class="layui-input-block">
                     <div class="layui-input-inline layui-show-xs-block">
-                        <input :value="result.status" class="layui-input" id="status" lay-verify="required" name="status"
+                        <input :value="result.status" class="layui-input" id="status" lay-verify="required"
+                               name="status"
                                readonly type="text">
                     </div>
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label" for="group">
+                <label class="layui-form-label">
                     <span class="x-red">*</span>消费群体
                 </label>
                 <div class="layui-input-block">
-                    <div class="layui-input-inline layui-show-xs-block">
-                        <input :value="result.group" class="layui-input" id="group" lay-verify="required" name="group"
-                               readonly
-                               type="text">
+                    <div class="layui-input-inline">
+                        <input lay-filter="save" lay-skin="primary" name="group" title="未成年"
+                               type="checkbox" value="未成年"/>
+                        <input lay-filter="save" lay-skin="primary" name="group" title="18岁-25岁"
+                               type="checkbox"
+                               value="18岁-25岁"/>
+                        <input lay-filter="save" lay-skin="primary" name="group" title="26岁-40岁"
+                               type="checkbox"
+                               value="26岁-40岁"/>
+                        <input lay-filter="save" lay-skin="primary" name="group" title="41-59岁"
+                               type="checkbox"
+                               value="41岁-59岁"/>
+                        <input lay-filter="save" lay-skin="primary" name="group" title="60岁-89岁"
+                               type="checkbox"
+                               value="60岁-89岁"/>
+                        <input lay-filter="save" lay-skin="primary" name="group" title="90岁-100岁"
+                               type="checkbox" value="90岁-100岁"/>
                     </div>
                 </div>
             </div>
@@ -82,20 +96,36 @@
                 </label>
                 <div class="layui-input-block">
                     <div class="layui-input-inline layui-show-xs-block">
-                        <input :value="result.earnings" class="layui-input" id="earnings" lay-verify="required" name="earnings"
+                        <input :value="result.earnings" class="layui-input" id="earnings" lay-verify="required"
+                               name="earnings"
                                readonly type="text">
                     </div>
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label" for="range">
+                <label class="layui-form-label">
                     <span class="x-red">*</span>购买金额区间
                 </label>
                 <div class="layui-input-block">
-                    <div class="layui-input-inline layui-show-xs-block">
-                        <input :value="result.range" class="layui-input" id="range" lay-verify="required" name="range"
-                               readonly
-                               type="text">
+                    <div class="layui-input-inline">
+                        <input lay-filter="save" lay-skin="primary" name="range" title="100元以下"
+                               type="checkbox" value="100元以下"/>
+                        <input lay-filter="save" lay-skin="primary" name="range" title="101元~500元"
+                               type="checkbox"
+                               value="101元~500元"/>
+                        <input lay-filter="save" lay-skin="primary" name="range" title="501元~1000元"
+                               type="checkbox"
+                               value="501元~1000元"/>
+                        <input lay-filter="save" lay-skin="primary" name="range" title="1001元~2000元"
+                               type="checkbox"
+                               value="1001元~2000元"/>
+                        <input lay-filter="save" lay-skin="primary" name="range" title="2001元~3000元"
+                               type="checkbox"
+                               value="2001元~3000元"/>
+                        <input lay-filter="save" lay-skin="primary" name="range" title="3001元~5000元"
+                               type="checkbox" value="3001元~5000元"/>
+                        <input lay-filter="save" lay-skin="primary" name="range" title="5000元以上"
+                               type="checkbox" value="5000元以上"/>
                     </div>
                 </div>
             </div>
@@ -105,7 +135,8 @@
                 </label>
                 <div class="layui-input-block">
                     <div class="layui-input-inline layui-show-xs-block">
-                        <input :value="result.problem" class="layui-input" id="problem" lay-verify="required" name="problem"
+                        <input :value="result.problem" class="layui-input" id="problem" lay-verify="required"
+                               name="problem"
                                readonly type="text">
                     </div>
                 </div>
@@ -140,8 +171,20 @@
                 success: function (result) {
                     if (result.code === 200) {
                         _this.result = result.data;
+
+                        $("[name=group]").each(function () {
+                            if (result.data.group.indexOf($(this).val()) > -1) {
+                                $(this).prop("checked", true);
+                            }
+                        });
+                        $("[name=range]").each(function () {
+                            if (result.data.range.indexOf($(this).val()) > -1) {
+                                $(this).prop("checked", true);
+                            }
+                        });
+
                     } else {
-                        layer.alert("获取修改年计划信息失败！");
+                        layer.alert("获取信息失败！");
                     }
                 }
             });

@@ -60,12 +60,27 @@
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label" for="group">
+                <label class="layui-form-label">
                     <span class="x-red">*</span>消费群体
                 </label>
                 <div class="layui-input-block">
-                    <div class="layui-input-inline layui-show-xs-block">
-                        <input class="layui-input" id="group" lay-verify="required" name="group" type="text">
+                    <div class="layui-input-inline">
+                        <input lay-filter="save" lay-skin="primary" name="group" title="未成年"
+                               type="checkbox" value="未成年"/>
+                        <input lay-filter="save" lay-skin="primary" name="group" title="18岁-25岁"
+                               type="checkbox"
+                               value="18岁-25岁"/>
+                        <input lay-filter="save" lay-skin="primary" name="group" title="26岁-40岁"
+                               type="checkbox"
+                               value="26岁-40岁"/>
+                        <input lay-filter="save" lay-skin="primary" name="group" title="41-59岁"
+                               type="checkbox"
+                               value="41岁-59岁"/>
+                        <input lay-filter="save" lay-skin="primary" name="group" title="60岁-89岁"
+                               type="checkbox"
+                               value="60岁-89岁"/>
+                        <input lay-filter="save" lay-skin="primary" name="group" title="90岁-100岁"
+                               type="checkbox" value="90岁-100岁"/>
                     </div>
                 </div>
             </div>
@@ -80,12 +95,29 @@
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label" for="range">
+                <label class="layui-form-label">
                     <span class="x-red">*</span>购买金额区间
                 </label>
                 <div class="layui-input-block">
-                    <div class="layui-input-inline layui-show-xs-block">
-                        <input class="layui-input" id="range" lay-verify="required" name="range" type="text">
+                    <div class="layui-input-inline">
+                        <input lay-filter="save" lay-skin="primary" name="range" title="100元以下"
+                               type="checkbox" value="100元以下"/>
+                        <input lay-filter="save" lay-skin="primary" name="range" title="101元~500元"
+                               type="checkbox"
+                               value="101元~500元"/>
+                        <input lay-filter="save" lay-skin="primary" name="range" title="501元~1000元"
+                               type="checkbox"
+                               value="501元~1000元"/>
+                        <input lay-filter="save" lay-skin="primary" name="range" title="1001元~2000元"
+                               type="checkbox"
+                               value="1001元~2000元"/>
+                        <input lay-filter="save" lay-skin="primary" name="range" title="2001元~3000元"
+                               type="checkbox"
+                               value="2001元~3000元"/>
+                        <input lay-filter="save" lay-skin="primary" name="range" title="3001元~5000元"
+                               type="checkbox" value="3001元~5000元"/>
+                        <input lay-filter="save" lay-skin="primary" name="range" title="5000元以上"
+                               type="checkbox" value="5000元以上"/>
                     </div>
                 </div>
             </div>
@@ -104,7 +136,7 @@
                 <button class="layui-btn" lay-filter="add" lay-submit="" style="width:77px;margin-right: 20px">
                     提交
                 </button>
-                <button class="layui-btn" id="reset" style="width:77px;"  onclick="xadmin.close();" > 返回
+                <button class="layui-btn" id="reset" onclick="xadmin.close();" style="width:77px;"> 返回
 
                 </button>
             </div>
@@ -125,6 +157,25 @@
                 function (data) {
                     data.field.monthId = sessionStorage.getItem("resultAddMonthId");
                     data.field.customerId = sessionStorage.getItem("resultAddCustomerId");
+
+                    var groupValue = "";
+                    $("[name=group]").each(function () {
+                        if ($(this).prop("checked")) {
+                            groupValue += $(this).val() + ",";
+                        }
+
+                    });
+                    data.field.group = groupValue.substring(0, groupValue.length - 1);
+
+                    var rangeValue = "";
+                    $("[name=range]").each(function () {
+                        if ($(this).prop("checked")) {
+                            rangeValue += $(this).val() + ",";
+                        }
+
+                    });
+                    data.field.range = rangeValue.substring(0, rangeValue.length - 1);
+
                     //发异步，把数据提交给java
                     $.ajax({
                         url: "/result/addResult",

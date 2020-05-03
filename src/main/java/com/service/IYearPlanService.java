@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.pojo.YearPlan;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 public interface IYearPlanService {
 
@@ -17,4 +18,5 @@ public interface IYearPlanService {
 
     int removePlanById(Integer id);
 
+    List<YearPlan> getYearPlanList();
 }

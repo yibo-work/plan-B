@@ -28,6 +28,12 @@ public class YearPlanController {
         return yearPlanService.queryPlanList(pageNum, pageSize);
     }
 
+    @RequestMapping("/getYearPlanList")
+    public ResultVO getYearPlanList() {
+        return ResultVOUtil.success(yearPlanService.getYearPlanList());
+    }
+
+
     @DeleteMapping("/removePlan")
     public ResultVO removePlan(@RequestParam(value = "planId") Integer planId) {
         yearPlanService.removePlanById(planId);

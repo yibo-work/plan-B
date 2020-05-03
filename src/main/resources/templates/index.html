@@ -68,6 +68,16 @@
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>年计划定制</cite></a>
                     </li>
+                    <li>
+                        <a onclick="xadmin.add_tab('季度计划','/quarterPlanManage')">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>季度计划</cite></a>
+                    </li>
+                    <li>
+                        <a onclick="xadmin.add_tab('月计划','/monthPlanManage')">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>月计划</cite></a>
+                    </li>
                     <li th:if="${auths != null and #strings.contains(auths,'客户拜访计划执行')}">
                         <a onclick="xadmin.add_tab('拜访计划模板','/planTemplateManage')">
                             <i class="iconfont">&#xe6a7;</i>

@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.pojo.QuarterPlan;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 public interface IQuarterPlanService {
 
@@ -17,4 +18,5 @@ public interface IQuarterPlanService {
 
     int removePlanById(Integer id);
 
+    List<QuarterPlan> getQuarterPlanList(Integer yearPlanId);
 }

@@ -67,7 +67,7 @@
                             </td>
                         </tr>
                         <tr v-if="pageInfo.total == 0">
-                            <td colspan="7" style="text-align: center">暂无季度计划！</td>
+                            <td colspan="100" style="text-align: center">暂无拜访结果记录！</td>
                         </tr>
                         </tbody>
                     </table>
@@ -129,7 +129,7 @@
                 if (addResultId) {
                     layer.alert("已经添加了反馈记录！");
                 } else {
-                    xadmin.open('添加拜访结果记录', '/resultAdd', 500, 600);
+                    xadmin.open('添加拜访结果记录', '/resultAdd', 500, 700);
                 }
 
                 sessionStorage.setItem("resultAddMonthId", resultAddMonthId);
@@ -138,7 +138,7 @@
             },
             viewResult: function (viewResultId) {
                 if (viewResultId) {
-                    xadmin.open('反馈详情', '/resultView', 500, 600)
+                    xadmin.open('反馈详情', '/resultView', 500, 700)
                 } else {
                     layer.alert("暂无反馈详情！");
                 }

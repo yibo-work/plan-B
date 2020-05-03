@@ -47,7 +47,7 @@
                 </label>
                 <div class="layui-input-block">
                     <div class="layui-input-inline layui-show-xs-block">
-                        <textarea class="layui-textarea" id="target" lay-verify="required" name="target" rows="4"
+                        <textarea class="layui-textarea" id="target" lay-verify="required" name="target" rows="3"
                                   v-text="quarterPlan.target"></textarea>
                     </div>
                 </div>
@@ -107,7 +107,7 @@
                     quarterPlan.overview = data.field.overview;
                     quarterPlan.situation = data.field.situation;
                     quarterPlan.target = data.field.target;
-                    quarterPlan.yearPlanId = sessionStorage.getItem("updateQuarterPlanYearPlanId");
+                    quarterPlan.yearPlanId = data.field.yearPlanId;
 
                     //发异步，把数据提交给controller
                     $.ajax({

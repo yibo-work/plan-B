@@ -17,6 +17,8 @@ public class QuarterPlan  implements Serializable {
 
 	private String execTime;
 
+	private String yearPlanExecTime;
+
 	private String overview;
 
 	private String target;

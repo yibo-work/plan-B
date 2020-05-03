@@ -78,11 +78,17 @@ public class UserController {
         return ResultVOUtil.success();
     }
 
+    /**
+     * 获取所有的客户经理
+     */
     @RequestMapping("/getUserList")
     public ResultVO getUserList() {
         return ResultVOUtil.success(userService.getUserList());
     }
 
+    /**
+     * 获取所有的用户
+     */
     @RequestMapping("/queryUserList")
     public ResultVO queryUserList() {
         return ResultVOUtil.success(userService.queryUserList());

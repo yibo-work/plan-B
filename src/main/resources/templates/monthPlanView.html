@@ -18,6 +18,32 @@
     <div class="layui-row">
         <form class="layui-form">
             <div class="layui-form-item">
+                <label class="layui-form-label" for="yearPlanId">
+                    <span class="x-red">*</span>年计划
+                </label>
+                <div class="layui-input-block">
+                    <div class="layui-input-inline layui-show-xs-block">
+                        <select id="yearPlanId" lay-filter="selectYear" name="yearPlanId"
+                                v-model="monthPlan.yearPlanId">
+                            <option :value="yearPlan.id" v-for="yearPlan,index in yearPlanList">{{yearPlan.execTime}}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" for="quarterPlanId">
+                    <span class="x-red">*</span>季度计划
+                </label>
+                <div class="layui-input-block">
+                    <div class="layui-input-inline layui-show-xs-block">
+                        <select id="quarterPlanId" name="quarterPlanId" v-model="monthPlan.quarterPlanId">
+                            <option :value="yearPlan.id" v-for="yearPlan,index in quarterPlanList">{{yearPlan.execTime}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
                 <label class="layui-form-label" for="execTime">
                     <span class="x-red">*</span>执行时间
                 </label>
@@ -111,7 +137,9 @@
         data: {
             customerList: [],
             userList: [],
-            monthPlan: {}
+            monthPlan: {},
+            yearPlanList: [],
+            quarterPlanList: []
         },
         created: function () {
             var _this = this;
@@ -135,7 +163,7 @@
                     if (result.code === 200) {
                         _this.userList = result.data;
                     } else {
-                        layer.alert("获取所有执行人信息失败！");
+                        layer.alert("获取所有客户经理信息失败！");
                     }
                 }
             });
@@ -154,8 +182,35 @@
                                 $(this).prop("checked", true);
                             }
                         });
+                        $.ajax({
+                            url: "/quarterPlan/getQuarterPlanList",
+                            data: {
+                                yearPlanId: _this.monthPlan.yearPlanId
+                            },
+                            dataType: "json",
+                            type: "get",
+                            success: function (result) {
+                                if (result.code === 200) {
+                                    _this.quarterPlanList = result.data;
+                                } else {
+                                    layer.alert("获取季度计划失败！");
+                                }
+                            }
+                        });
                     } else {
-                        layer.alert("获取修改季度计划信息失败！");
+                        layer.alert("获取修改月计划信息失败！");
+                    }
+                }
+            });
+            $.ajax({
+                url: "/yearPlan/getYearPlanList",
+                dataType: "json",
+                type: "get",
+                success: function (result) {
+                    if (result.code === 200) {
+                        _this.yearPlanList = result.data;
+                    } else {
+                        layer.alert("获取年计划失败！");
                     }
                 }
             });

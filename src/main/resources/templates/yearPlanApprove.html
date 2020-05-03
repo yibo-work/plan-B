@@ -48,7 +48,7 @@
                 <div class="layui-input-block">
                     <div class="layui-input-inline layui-show-xs-block">
                         <textarea class="layui-textarea" id="situation" name="situation" readonly
-                                  rows="4"
+                                  rows="3"
                                   v-text="yearPlan.situation"></textarea>
                     </div>
                 </div>
@@ -60,7 +60,7 @@
                 <div class="layui-input-block">
                     <div class="layui-input-inline layui-show-xs-block">
                         <textarea class="layui-textarea" id="target" name="target" readonly
-                                  rows="4"
+                                  rows="3"
                                   v-text="yearPlan.target"></textarea>
                     </div>
                 </div>
@@ -73,6 +73,18 @@
                     <div class="layui-input-inline layui-show-xs-block">
                         <input :value="yearPlan.applyUserName" class="layui-input" id="applyUserName"
                                name="applyUserName"
+                               readonly type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" for="applyTime">
+                    申请时间
+                </label>
+                <div class="layui-input-block">
+                    <div class="layui-input-inline layui-show-xs-block">
+                        <input :value="yearPlan.applyTime" class="layui-input" id="applyTime"
+                               name="applyTime"
                                readonly type="text">
                     </div>
                 </div>
@@ -96,13 +108,25 @@
                 <div class="layui-input-block">
                     <div class="layui-input-inline layui-show-xs-block">
                         <textarea class="layui-textarea" id="firstIdea" name="firstIdea"
-                                  readonly rows="4"
+                                  readonly rows="3"
                                   th:data-userId="${session.USER.user.id}"
                                   v-text="yearPlan.firstIdea"></textarea>
                     </div>
                 </div>
             </div>
             <div class="layui-form-item">
+                <label class="layui-form-label" for="firstTime">
+                    审批时间
+                </label>
+                <div class="layui-input-block">
+                    <div class="layui-input-inline layui-show-xs-block">
+                        <input :value="yearPlan.firstTime" class="layui-input" id="firstTime"
+                               name="firstTime" readonly th:data-userId="${session.USER.user.id}"
+                               type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item second">
                 <label class="layui-form-label" for="secondUserName">
                     审批人
                 </label>
@@ -114,37 +138,53 @@
                     </div>
                 </div>
             </div>
-            <div class="layui-form-item">
+            <div class="layui-form-item second">
                 <label class="layui-form-label" for="secondIdea">
                     审批意见
                 </label>
                 <div class="layui-input-block">
                     <div class="layui-input-inline layui-show-xs-block">
                         <textarea class="layui-textarea" id="secondIdea" name="secondIdea"
-                                  readonly rows="4" th:data-userId="${session.USER.user.id}"
+                                  readonly rows="3" th:data-userId="${session.USER.user.id}"
                                   v-text="yearPlan.secondIdea"></textarea>
                     </div>
                 </div>
             </div>
-            <div class="layui-form-item">
-                <button class="layui-btn" lay-filter="pass" lay-submit="" style="width: 100px;margin: 10px">
-                    通过
-                </button>
-                <button class="layui-btn layui-btn-danger" lay-filter="pass_not" lay-submit=""
-                        style="width: 100px;margin: 10px">
-                    拒绝
-                </button>
-                <button class="layui-btn layui-btn-primary" onclick="xadmin.close();" style="width: 100px;margin: 10px">
-                    取消
-                </button>
+            <div class="layui-form-item second">
+                <label class="layui-form-label" for="secondTime">
+                    审批时间
+                </label>
+                <div class="layui-input-block">
+                    <div class="layui-input-inline layui-show-xs-block">
+                        <input :value="yearPlan.secondTime" class="layui-input" id="secondTime"
+                               name="secondTime" readonly
+                               th:data-userId="${session.USER.user.id}" type="text">
+                    </div>
+                </div>
             </div>
         </form>
+
     </div>
 </div>
-<script charset="UTF-8" type="text/javascript">
+<div style="position: sticky; bottom: 30px;background: white">
+    <div style="margin: 10px auto; width: 400px;">
+        <button class="layui-btn" lay-filter="pass" lay-submit="" style="width: 100px;margin: 10px">
+            通过
+        </button>
+        <button class="layui-btn layui-btn-danger" lay-filter="pass_not" lay-submit=""
+                style="width: 100px;margin: 10px">
+            拒绝
+        </button>
+        <button class="layui-btn layui-btn-primary" onclick="xadmin.close();" style="width: 100px;margin: 10px">
+            取消
+        </button>
+    </div>
+</div>
+<script charset="UTF-8" th:inline="javascript" type="text/javascript">
 
     var approveYearPlanId = sessionStorage.getItem("approveYearPlanId");
     var yearPlanApprove = {};
+    var sessionUser = [[${session.USER.user}]];
 
     vm = new Vue({
         el: "#vmUpdateYearPlan",
@@ -178,9 +218,7 @@
                 layer = layui.layer;
 
             var firstIdeaUserId = $("#firstIdea").attr("data-userId");
-            console.info(firstIdeaUserId);
             var secondIdeaUserId = $("#secondIdea").attr("data-userId");
-            console.info(secondIdeaUserId);
             var isFirst = yearPlanApprove.firstUserId == firstIdeaUserId;
             var isSecond = yearPlanApprove.secondUserId == secondIdeaUserId;
 
@@ -189,10 +227,13 @@
             if (isFirst) {
                 canUpdate = true;
                 $("#firstIdea").prop("readonly", false);
+                $("#firstTime").prop("readonly", false);
+                $(".second").remove();
             }
             if (isSecond) {
                 canUpdate = true;
                 $("#secondIdea").prop("readonly", false);
+                $("#secondTime").prop("readonly", false);
             }
 
             //监听提交
@@ -209,11 +250,21 @@
 
                     if (isFirst) {
                         yearPlan.firstIdea = data.field.firstIdea;
-                        yearPlan.status = 1;
+                        if (yearPlanApprove.status == 1) {
+                            yearPlan.status = 2;
+                        } else {
+                            yearPlan.status = 1;
+                        }
+                        yearPlan.firstTime = data.field.firstTime;
                     }
                     if (isSecond) {
                         yearPlan.secondIdea = data.field.secondIdea;
-                        yearPlan.status = 2;
+                        if (yearPlanApprove.status == 1) {
+                            yearPlan.status = 2;
+                        } else {
+                            yearPlan.status = 1;
+                        }
+                        yearPlan.secondTime = data.field.secondTime;
                     }
                     //发异步，把数据提交给controller
                     $.ajax({

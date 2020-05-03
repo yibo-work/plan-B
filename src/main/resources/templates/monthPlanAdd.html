@@ -18,6 +18,29 @@
     <div class="layui-row">
         <form class="layui-form" onsubmit="return false;">
             <div class="layui-form-item">
+                <label class="layui-form-label" for="yearPlanId">
+                    <span class="x-red">*</span>年计划
+                </label>
+                <div class="layui-input-block">
+                    <div class="layui-input-inline layui-show-xs-block">
+                        <select id="yearPlanId" lay-filter="selectYear" name="yearPlanId">
+                            <option :value="yearPlan.id" v-for="yearPlan,index in yearPlanList">{{yearPlan.execTime}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" for="quarterPlanId">
+                    <span class="x-red">*</span>季度计划
+                </label>
+                <div class="layui-input-block">
+                    <div class="layui-input-inline layui-show-xs-block">
+                        <select id="quarterPlanId" name="quarterPlanId"></select>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
                 <label class="layui-form-label" for="execTime">
                     <span class="x-red">*</span>执行时间
                 </label>
@@ -43,11 +66,6 @@
                 </label>
                 <div class="layui-input-block">
                     <div class="layui-input-inline layui-show-xs-block">
-                        <!--<select id="customerList" name="customerIds">
-                            <option :value="customer.id" v-for="customer,index in customerList">
-                                {{customer.companyName}}
-                            </option>
-                        </select>-->
                         <input class="layui-input" id="customerList" lay-verify="required" name="customerList"
                                readonly type="text">
                         <input class="layui-input" id="customerIds" lay-verify="required"
@@ -114,15 +132,12 @@
 </div>
 <script charset="UTF-8" type="text/javascript">
 
-    layui.use(['form'], function () {
-    });
-
     vm = new Vue({
         el: "#vmAddMonthPlan",
         data: {
             customerList: [],
-            userList: []
-
+            userList: [],
+            yearPlanList: []
         },
         created: function () {
             var _this = this;
@@ -150,7 +165,18 @@
                     }
                 }
             });
-
+            $.ajax({
+                url: "/yearPlan/getYearPlanList",
+                dataType: "json",
+                type: "get",
+                success: function (result) {
+                    if (result.code === 200) {
+                        _this.yearPlanList = result.data;
+                    } else {
+                        layer.alert("获取年计划失败！");
+                    }
+                }
+            });
         }
     });
 
@@ -158,11 +184,36 @@
         function () {
             var form = layui.form,
                 layer = layui.layer;
+            form.on('select(selectYear)', function (data) {
+                var yearId = data.value;
+
+                $.ajax({
+                    url: "/quarterPlan/getQuarterPlanList",
+                    data: {
+                        "yearPlanId": yearId
+                    },
+                    dataType: "json",
+                    type: "get",
+                    success: function (result) {
+                        if (result.code === 200) {
+                            var quarterPlanList = result.data;
+                            $("#quarterPlanId option").remove();
+                            $.each(quarterPlanList, function (i, obj) {
+                                $("#quarterPlanId").append("<option value='" + obj.id + "'>" + obj.execTime + "</option>");
+                            });
+
+                            form.render('select');
+                        } else {
+                            layer.alert("获取季度计划失败！");
+                        }
+                    }
+                });
+            });
+
 
             //监听提交
             form.on('submit(add)',
                 function (data) {
-                    data.field.quarterPlanId = sessionStorage.getItem("updateMonthPlanQuarterPlanId");
                     var values = "";
                     $("[name=methods]").each(function () {
                         if ($(this).prop("checked")) {

@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface MonthPlanMapper {
 
-    List<MonthPlan> queryPlanList(@Param("quarterPlanId") Integer yearPlanId);
+    List<MonthPlan> queryPlanList(@Param("quarterPlanId") Integer quarterPlanId);
 
     int addPlan(@Param("plan") MonthPlan plan);
 

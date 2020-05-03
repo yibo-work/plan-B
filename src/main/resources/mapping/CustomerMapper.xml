@@ -67,6 +67,9 @@
                 and company_name like concat('%',#{companyName},'%')
             </if>
         </where>
+<!--TODO 改这个-->
+        select * from month_plan a
+        left join result
     </select>
 
 </mapper>

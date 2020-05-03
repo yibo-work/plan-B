@@ -46,6 +46,7 @@
                  left join customer s ON position(concat(s.id) in a.customer_ids) != 0
                  left join user u on a.exec_user_id = u.id
                  left join result r on a.id = r.month_id and customer_id = s.id
+        order by a.id
     </select>
 
     <select id="getResultById" resultType="com.pojo.Result">
