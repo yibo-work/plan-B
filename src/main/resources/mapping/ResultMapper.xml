@@ -62,9 +62,11 @@
         from year_plan a
         left join month_plan s ON a.id = s.year_plan_id
         left join user d On d.id = s.exec_user_id
-        <if test="name != null and name !=''">
-            and d.`name` like concat('%', #{name},'%')
-        </if>
+        <where>
+            <if test="name != null and name !=''">
+                and d.`name` like concat('%', #{name},'%')
+            </if>
+        </where>
     </select>
 
     <select id="queryResultPage" resultType="com.pojo.Result">
